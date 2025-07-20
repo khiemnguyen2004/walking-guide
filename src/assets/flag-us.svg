@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" viewBox="0 0 32 24">
+  <rect width="32" height="24" fill="#b22234"/>
+  <g fill="#fff">
+    <rect y="2.18" width="32" height="2.18"/>
+    <rect y="6.54" width="32" height="2.18"/>
+    <rect y="10.9" width="32" height="2.18"/>
+    <rect y="15.26" width="32" height="2.18"/>
+    <rect y="19.62" width="32" height="2.18"/>
+  </g>
+  <rect width="13.7" height="9.6" fill="#3c3b6e"/>
+  <g fill="#fff">
+    <g id="s18">
+      <g id="s9">
+        <polygon points="1.37,1.44 1.68,2.36 2.65,2.36 1.87,2.93 2.18,3.85 1.37,3.28 0.56,3.85 0.87,2.93 0.09,2.36 1.06,2.36"/>
+      </g>
+      <use xlink:href="#s9" x="2.74"/>
+      <use xlink:href="#s9" x="5.48"/>
+      <use xlink:href="#s9" x="8.22"/>
+      <use xlink:href="#s9" x="10.96"/>
+    </g>
+    <use xlink:href="#s18" y="1.92"/>
+    <use xlink:href="#s18" y="3.84"/>
+    <use xlink:href="#s18" y="5.76"/>
+    <use xlink:href="#s18" y="7.68"/>
+  </g>
+</svg> 

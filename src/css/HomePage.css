@@ -1,0 +1,314 @@
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-section {
+  margin-bottom: 2rem;
+}
+
+.cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+.card-img-top {
+  object-fit: cover;
+  width: 100%;
+  height: 12rem;
+}
+
+.card-info {
+  padding: 1rem;
+}
+
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1 !important; 
+}
+
+.luxury-modal .modal-content {
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(60,72,100,0.18);
+  border: none;
+  background: #fff;
+}
+.luxury-modal-header {
+  background: linear-gradient(120deg, #5b9df9 0%, #b6e0fe 100%);
+  color: #fff !important;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  align-items: center;
+}
+.luxury-modal-title {
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+}
+.luxury-modal-header .modal-icon {
+  font-size: 1.7rem;
+  color: #3c69b0 !important;
+  display: flex;
+  align-items: center;
+}
+.luxury-modal-body {
+  padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+  background: #f8fafc;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  min-height: 0;
+}
+.luxury-modal .btn-close {
+  filter: invert(1) grayscale(1) brightness(2);
+}
+
+.luxury-header, .luxury-navbar, .app-header-mobile {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  max-width: 100vw !important;
+  z-index: 2000 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure the main content is not hidden behind the fixed header */
+.luxury-home-container, .main-content-mobile {
+  padding-top: 100px !important;
+}
+
+/* Autoplanner Banner Section Responsive Styles */
+.autoplanner-banner-section {
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 3rem 1rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.route-banner {
+  position: relative;
+  min-height: 140px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: visible;
+  padding: 0 20px;
+}
+
+.route-stop {
+  transition: all 0.3s ease;
+}
+
+.route-stop:hover {
+  transform: scale(1.1);
+  z-index: 3 !important;
+}
+
+.route-img-wrapper {
+  transition: all 0.3s ease;
+}
+
+.route-img-wrapper:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+  border-color: #5b9df9 !important;
+}
+
+/* Responsive styles for tablets (<=1024px) */
+@media (max-width: 1024px) {
+  .home-container {
+    background: linear-gradient(120deg, #f8fafc 0%, #b6e0fe 100%);
+    min-height: 100vh;
+    padding: 0.5rem;
+  }
+  .cards-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+  .card {
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 12px rgba(60,72,100,0.10);
+    margin-bottom: 0.7rem;
+    padding: 0.7rem;
+  }
+  .card-img-top {
+    border-radius: 1rem;
+    height: 9rem;
+  }
+  .card-info {
+    padding: 0.7rem;
+  }
+  .autoplanner-banner-section {
+    margin: 1.5rem auto;
+    padding: 2.5rem 1rem;
+  }
+  
+  .route-banner {
+    min-height: 120px;
+    max-width: 800px;
+    padding: 0 15px;
+  }
+  
+  .route-stop {
+    min-width: 70px !important;
+  }
+  
+  .route-img-wrapper {
+    width: 56px !important;
+    height: 56px !important;
+  }
+}
+
+/* Responsive styles for phones (<=768px) */
+@media (max-width: 768px) {
+  .home-container {
+    background: linear-gradient(120deg, #f8fafc 0%, #b6e0fe 100%);
+    min-height: 100vh;
+    padding: 0.2rem;
+  }
+  .cards-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .card {
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 16px rgba(60,72,100,0.13);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    transition: box-shadow 0.2s;
+  }
+  .card-img-top {
+    border-radius: 0.9rem;
+    height: 7rem;
+  }
+  .card-info {
+    padding: 0.5rem;
+    font-size: 0.98em;
+  }
+  .luxury-modal .modal-content {
+    border-radius: 1.1rem;
+    box-shadow: 0 4px 18px 0 rgba(60,72,100,0.13);
+    padding: 0.5rem;
+  }
+  .luxury-modal-header {
+    border-top-left-radius: 1.1rem;
+    border-top-right-radius: 1.1rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+  .luxury-modal-title {
+    font-size: 1.1rem;
+  }
+  button, .btn, .edit-btn, .save-btn, .cancel-btn {
+    border-radius: 1.5rem;
+    font-size: 1.05em;
+    padding: 0.7em 1.2em;
+    box-shadow: 0 1px 6px rgba(60,72,100,0.10);
+    font-weight: 600;
+  }
+  .autoplanner-banner-section {
+    margin: 1rem auto;
+    padding: 2rem 0.5rem;
+    border-radius: 1rem;
+  }
+  
+  .autoplanner-banner-section h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .autoplanner-banner-section .lead {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .autoplanner-banner-section .btn {
+    font-size: 1rem !important;
+    padding: 0.75rem 1.5rem !important;
+  }
+  
+  .route-banner {
+    min-height: 100px;
+    max-width: 100%;
+    /* margin: 0 0.5rem; */
+    padding: 0 10px;
+  }
+  
+  .route-stop {
+    min-width: 60px !important;
+  }
+  
+  .route-img-wrapper {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  .route-stop span {
+    font-size: 0.75rem !important;
+    max-width: 60px !important;
+  }
+  
+  /* Adjust SVG path for mobile */
+  .route-banner svg {
+    height: 80px !important;
+  }
+}
+
+/* Responsive styles for small mobile devices (<=480px) */
+@media (max-width: 480px) {
+  .autoplanner-banner-section {
+    margin: 0.5rem auto;
+    padding: 1.5rem 0.25rem;
+  }
+  
+  .autoplanner-banner-section h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  .autoplanner-banner-section .lead {
+    font-size: 0.9rem !important;
+  }
+  
+  .route-banner {
+    min-height: 80px;
+    padding: 0 5px;
+  }
+  
+  .route-stop {
+    min-width: 50px !important;
+  }
+  
+  .route-img-wrapper {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .route-stop span {
+    font-size: 0.7rem !important;
+    max-width: 50px !important;
+  }
+  
+  /* Hide some route stops on very small screens */
+  .route-stop:nth-child(n+4) {
+    display: none;
+  }
+}
+
+/* Responsive styles for tablets (<=1024px) */

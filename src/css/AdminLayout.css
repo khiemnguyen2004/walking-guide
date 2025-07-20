@@ -1,0 +1,365 @@
+/* Admin Layout Styles */
+.admin-layout {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.admin-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(120deg, #b6e0fe 0%, #5b9df9 100%);
+  color: white;
+  z-index: 1050;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.admin-header .container-fluid {
+  height: 100%;
+  position: relative;
+}
+
+.admin-header .d-flex {
+  height: 100%;
+  position: relative;
+}
+
+.admin-header .navbar-brand {
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.admin-header .navbar-brand:hover {
+  color: #e9ecef !important;
+  transform: translateY(-1px);
+}
+
+.admin-header .brand-logo {
+  position: relative;
+}
+
+.admin-header .brand-logo .logo-icon {
+  transition: all 0.3s ease;
+}
+
+.admin-header .navbar-brand:hover .brand-logo .logo-icon {
+  transform: scale(1.1);
+  background-color: rgba(255,255,255,0.3);
+}
+
+.admin-header .brand-text h4 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.admin-header .brand-text small {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.admin-header-actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.admin-header .btn-link {
+  text-decoration: none;
+  border: none;
+  background: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-header .btn-link:hover {
+  color: #e9ecef !important;
+  transform: translateY(-1px);
+}
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+.admin-sidebar {
+  top: 60px;
+  position: fixed;
+  left: 0;
+  z-index: 1040;
+  width: 250px;
+  height: calc(100vh - 60px);
+  background: linear-gradient(180deg, #b6e0fe 0%, #5b9df9 100%);
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+}
+
+.sidebar-nav {
+  padding: 1rem 0;
+}
+
+.sidebar-nav .nav-link {
+  color: #3c69b0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-nav .nav-link:hover {
+  background-color: rgba(255,255,255,0.2);
+  color: #3c69b0;
+  border-left-color: #3498db;
+}
+
+.sidebar-nav .nav-link.active {
+  background-color: rgba(255,255,255,0.3);
+  color: #3c69b0;
+  border-left-color: #2980b9;
+  font-weight: 600;
+}
+
+.sidebar-nav .nav-link i {
+  width: 20px;
+  text-align: center;
+}
+
+.admin-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px);
+}
+
+/* Admin Button Styles */
+.admin-main-btn {
+  background: linear-gradient(90deg, #5b9df9 0%, #3498db 100%);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-main-btn:hover {
+  background: linear-gradient(120deg, #b6e0fe 0%, #5b9df9 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.admin-btn-danger {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-btn-danger:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Card Styles */
+.card {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-header {
+  background: linear-gradient(120deg, #b6e0fe 0%, #5b9df9 100%);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+}
+
+.card-header h5 {
+  margin: 0;
+  font-weight: 600;
+  color: #3c69b0;
+}
+
+/* Form Styles */
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Table Styles */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  border-top: none;
+  font-weight: 600;
+  color: #495057;
+  padding: 1rem 0.75rem;
+}
+
+.table td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0,0,0,.02);
+}
+
+/* Button Group Styles */
+.btn-group .btn {
+  border-radius: 6px;
+  margin: 0 2px;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+}
+
+/* Badge Styles */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+}
+
+/* Modal Styles */
+.modal-header {
+  background: linear-gradient(120deg, #b6e0fe 0%, #5b9df9 100%);
+  color: white;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-weight: 600;
+  color:#3c69b0 !important;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    top: 0;
+  }
+  
+  .admin-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .admin-container {
+    flex-direction: column;
+  }
+  
+  .admin-header .brand-text h4 {
+    font-size: 1.2rem;
+  }
+  
+  .admin-header .brand-text small {
+    font-size: 0.7rem;
+  }
+  
+  .admin-header-actions {
+    position: static;
+    transform: none;
+    margin-left: auto;
+  }
+}
+
+/* Image Preview Styles */
+.card-img-top {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+  background-color: #f8d7da;
+}
+
+/* Form Check Styles */
+.form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.form-check-label {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Loading States */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success/Error Messages */
+.alert {
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}

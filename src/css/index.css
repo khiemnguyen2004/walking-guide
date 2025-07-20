@@ -1,0 +1,201 @@
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.list-group-item a{
+  color: black;
+  margin-right:10px;
+}
+.list-group-item a:hover{
+  color: #646cff;
+}
+
+/* Map Controls - Global styles for all map components */
+.leaflet-control {
+  position: absolute;
+  z-index: 1000;
+}
+
+.leaflet-control.leaflet-bar {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.leaflet-control.leaflet-bar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-control.leaflet-bar button {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(90deg, #5b9df9 0%, #3498db 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.leaflet-control.leaflet-bar button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.leaflet-control.leaflet-bar button:hover::before {
+  left: 100%;
+}
+
+.leaflet-control.leaflet-bar button:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: scale(1.05);
+}
+
+.leaflet-control.leaflet-bar button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.leaflet-control.leaflet-bar button i {
+  color: white;
+  font-size: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.leaflet-control.leaflet-bar button:hover i {
+  transform: scale(1.1);
+}
+
+/* Zoom Controls */
+.zoom-controls {
+  top: 80px !important;
+  right: 30px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 12px !important;
+  overflow: visible !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.zoom-controls:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.zoom-controls .zoom-in-btn,
+.zoom-controls .zoom-out-btn {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(90deg, #3498db 0%, #5b9df9 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.zoom-controls .zoom-in-btn::before,
+.zoom-controls .zoom-out-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.zoom-controls .zoom-in-btn:hover::before,
+.zoom-controls .zoom-out-btn:hover::before {
+  left: 100%;
+}
+
+.zoom-controls .zoom-in-btn:hover,
+.zoom-controls .zoom-out-btn:hover {
+  background: linear-gradient(90deg, #3498db 0%, #5b9df9 100%);
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.zoom-controls .zoom-in-btn:active,
+.zoom-controls .zoom-out-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.zoom-controls .zoom-in-btn i,
+.zoom-controls .zoom-out-btn i {
+  color: white;
+  font-size: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.zoom-controls .zoom-in-btn:hover i,
+.zoom-controls .zoom-out-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Pulse animation for the location button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.location-control {
+  animation: pulse 2s infinite;
+}
+
+.location-control:hover {
+  animation: none;
+}
+
+/* Fit All Markers Control */
+.fit-markers-control {
+  top: 15px !important;
+  right: 100px !important;
+}
+
+.fit-markers-control button {
+  background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%) !important;
+}
+
+.fit-markers-control button:hover {
+  background: linear-gradient(135deg, #229954 0%, #27ae60 100%) !important;
+}

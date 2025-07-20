@@ -1,0 +1,37 @@
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: rgba(255,255,255,0.7);
+  border-radius: 2rem;
+  padding: 0.25rem 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s, color 0.2s;
+  color: #333;
+}
+
+.lang-btn.active, .lang-btn:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+.lang-icon {
+  font-size: 1.2rem;
+  margin-right: 0.3rem;
+}
+
+.lang-label {
+  font-weight: 500;
+}
