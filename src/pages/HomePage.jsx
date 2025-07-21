@@ -364,7 +364,7 @@ function HomePage() {
                         <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                           <Link to={`/places/${p.id || p._id}`} className="text-decoration-none">
                             <img
-                              src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `${BASE_URL}${p.image_url}`) : "/default-place.jpg"}
+                              src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `${BASE_URL}${p.image_url}`) : undefined}
                               alt={p.name}
                               className="card-img-top luxury-img-top"
                               style={{
@@ -372,9 +372,15 @@ function HomePage() {
                                 objectFit: "cover",
                               }}
                               onError={(e) => {
-                                e.target.src = "/default-place.jpg";
+                                e.target.src = undefined;
                               }}
                             />
+                            {!p.image_url && (
+                              <div className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
+                                style={{ height: 220, borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem", background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", color: "white", fontSize: "3rem" }}>
+                                <i className="bi bi-geo-alt-fill"></i>
+                              </div>
+                            )}
                             <div className="card-body luxury-card-body">
                               <h3 className="card-title mb-2" style={{ fontWeight: 600 }}>{p.name}</h3>
                               {p.city && (
@@ -426,7 +432,7 @@ function HomePage() {
                                 <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                                   <Link to={`/places/${p.id || p._id}`} className="text-decoration-none">
                                     <img
-                                      src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `${BASE_URL}${p.image_url}`) : "/default-place.jpg"}
+                                      src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `${BASE_URL}${p.image_url}`) : undefined}
                                       alt={p.name}
                                       className="card-img-top luxury-img-top"
                                       style={{
@@ -434,9 +440,15 @@ function HomePage() {
                                         objectFit: "cover",
                                       }}
                                       onError={(e) => {
-                                        e.target.src = "/default-place.jpg";
+                                        e.target.src = undefined;
                                       }}
                                     />
+                                    {!p.image_url && (
+                                      <div className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
+                                        style={{ height: 220, borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem", background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", color: "white", fontSize: "3rem" }}>
+                                        <i className="bi bi-geo-alt-fill"></i>
+                                      </div>
+                                    )}
                                     <div className="card-body luxury-card-body">
                                       <h3 className="card-title mb-2" style={{ fontWeight: 600 }}>{p.name}</h3>
                                       {p.city && (
@@ -667,7 +679,7 @@ function HomePage() {
                                           alt={image.caption || hotel.name}
                                           className="card-img-top luxury-img-top"
                                           style={{ height: 220, objectFit: "cover"}}
-                                          onError={(e) => { e.target.src = "/default-hotel.jpg"; }}
+                                          onError={(e) => { e.target.style.display = 'none'; }}
                                         />
                                       </div>
                                     ))}
@@ -759,7 +771,7 @@ function HomePage() {
                                                   alt={image.caption || hotel.name}
                                                   className="card-img-top luxury-img-top"
                                                   style={{ height: 220, objectFit: "cover" }}
-                                                  onError={(e) => { e.target.src = "/default-hotel.jpg"; }}
+                                                  onError={(e) => { e.target.style.display = 'none'; }}
                                                 />
                                               </div>
                                             ))}

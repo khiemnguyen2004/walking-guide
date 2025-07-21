@@ -803,13 +803,20 @@ function MyTours() {
                   <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                     <Link to={`/hotels/${booking.hotel_id}`} className="text-decoration-none" style={{display:'block', height:'100%'}}>
                       <div className="position-relative">
-                        <img
-                          src={booking.hotel_image_url ? (booking.hotel_image_url.startsWith('http') ? booking.hotel_image_url : `http://localhost:3000${booking.hotel_image_url}`) : "/default-hotel.jpg"}
-                          alt={booking.hotel_name || 'Khách sạn'}
-                          className="card-img-top luxury-img-top"
-                          style={{ height: 180, objectFit: "cover", borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
-                          onError={e => { e.target.src = "/default-hotel.jpg"; }}
-                        />
+                        {booking.hotel_image_url ? (
+                          <img
+                            src={booking.hotel_image_url.startsWith('http') ? booking.hotel_image_url : `http://localhost:3000${booking.hotel_image_url}`}
+                            alt={booking.hotel_name || 'Khách sạn'}
+                            className="card-img-top luxury-img-top"
+                            style={{ height: 180, objectFit: "cover", borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
+                            onError={e => { e.target.style.display = 'none'; }}
+                          />
+                        ) : (
+                          <div className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
+                            style={{ height: 180, borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem", background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", color: "white", fontSize: "3rem" }}>
+                            <i className="bi bi-building"></i>
+                          </div>
+                        )}
                         <div className="position-absolute top-0 end-0 m-2">
                           <span className="badge bg-warning text-dark">
                             <i className="bi bi-star-fill"></i>

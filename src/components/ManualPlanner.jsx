@@ -770,7 +770,7 @@ function ManualPlanner({ noLayout }) {
                           }
                         }}
                       >
-                        <Card.Img variant="top" src={getPlaceImageUrl(place)} style={{ height: 140, objectFit: "cover", borderTopLeftRadius: 12, borderTopRightRadius: 12 }} onError={e => { e.target.src = "/default-place.jpg"; }} />
+                        <Card.Img variant="top" src={getPlaceImageUrl(place)} style={{ height: 140, objectFit: "cover", borderTopLeftRadius: 12, borderTopRightRadius: 12 }} onError={e => { e.target.style.display = 'none'; }} />
                         <Card.Body>
                           <Card.Title className="fw-bold" style={{ color: isSelected ? '#1a5bb8' : undefined }}>{place.name}</Card.Title>
                           <Card.Text>
@@ -980,7 +980,7 @@ function ManualPlanner({ noLayout }) {
                           if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') setSelectedHotel(hotel);
                         }}
                       >
-                        <Card.Img variant="top" src={hotel.images && hotel.images[0] ? getImageUrl(hotel.images[0].image_url) : "/default-hotel.jpg"} style={{ height: 180, objectFit: "cover", borderTopLeftRadius: 12, borderTopRightRadius: 12 }} onError={e => { e.target.src = "/default-hotel.jpg"; }} />
+                        <Card.Img variant="top" src={hotel.images && hotel.images[0] ? getImageUrl(hotel.images[0].image_url) : "/default-hotel.jpg"} style={{ height: 180, objectFit: "cover", borderTopLeftRadius: 12, borderTopRightRadius: 12 }} onError={e => { e.target.style.display = 'none'; }} />
                         <Card.Body>
                           <Card.Title className="fw-bold" style={{ color: selectedHotel?.id === hotel.id ? '#1a5bb8' : undefined }}>{hotel.name}</Card.Title>
                           <Card.Text>
@@ -1020,7 +1020,7 @@ function ManualPlanner({ noLayout }) {
                       if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') setSelectedHotel(hotel);
                     }}
                   >
-                    <Card.Img variant="top" src={hotel.images && hotel.images[0] ? getImageUrl(hotel.images[0].image_url) : "/default-hotel.jpg"} style={{ height: 180, objectFit: "cover" }} onError={e => { e.target.src = "/default-hotel.jpg"; }} />
+                    <Card.Img variant="top" src={hotel.images && hotel.images[0] ? getImageUrl(hotel.images[0].image_url) : "/default-hotel.jpg"} style={{ height: 180, objectFit: "cover" }} onError={e => { e.target.style.display = 'none'; }} />
                     <Card.Body>
                       <Card.Title className="fw-bold" style={{ color: selectedHotel?.id === hotel.id ? '#1a5bb8' : undefined }}>{hotel.name}</Card.Title>
                       <Card.Text>
@@ -1067,7 +1067,7 @@ function ManualPlanner({ noLayout }) {
         <div className="mt-4">
           <h6>Khách sạn đã chọn</h6>
           <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src={selectedHotel.images && selectedHotel.images[0] ? getImageUrl(selectedHotel.images[0].image_url) : "/default-hotel.jpg"} style={{ height: 120, objectFit: "cover" }} onError={e => { e.target.src = "/default-hotel.jpg"; }} />
+            <Card.Img variant="top" src={selectedHotel.images && selectedHotel.images[0] ? getImageUrl(selectedHotel.images[0].image_url) : "/default-hotel.jpg"} style={{ height: 120, objectFit: "cover" }} onError={e => { e.target.style.display = 'none'; }} />
             <Card.Body>
               <Card.Title>{selectedHotel.name}</Card.Title>
               <Card.Text>

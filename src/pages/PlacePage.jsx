@@ -108,7 +108,7 @@ function PlacePage() {
                         borderTopRightRadius: "1.5rem"
                       }}
                       onError={(e) => {
-                        e.target.src = "/default-place.jpg";
+                        e.target.style.display = 'none';
                       }}
                     />
                     <div className="card-body luxury-card-body">
