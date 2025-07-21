@@ -806,13 +806,13 @@ function MyTours() {
                     <Link to={`/hotels/${booking.hotel_id}`} className="text-decoration-none" style={{display:'block', height:'100%'}}>
                       <div className="position-relative">
                         {booking.hotel_image_url ? (
-                          <img
+                        <img
                             src={booking.hotel_image_url.startsWith('http') ? booking.hotel_image_url : `${BASE_URL}${booking.hotel_image_url}`}
-                            alt={booking.hotel_name || 'Khách sạn'}
-                            className="card-img-top luxury-img-top"
-                            style={{ height: 180, objectFit: "cover", borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
+                          alt={booking.hotel_name || 'Khách sạn'}
+                          className="card-img-top luxury-img-top"
+                          style={{ height: 180, objectFit: "cover", borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
                             onError={e => { e.target.style.display = 'none'; }}
-                          />
+                        />
                         ) : (
                           <div className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
                             style={{ height: 180, borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem", background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", color: "white", fontSize: "3rem" }}>

@@ -655,21 +655,21 @@ function PlaceDetailMap({ place, onClose }) {
                   <>
                     <div className="position-relative" style={{ height: '250px' }}>
                       {selectedRestaurant.image_url || (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) ? (
-                        <img
-                          src={(() => {
-                            if (selectedRestaurant.image_url) {
+                      <img
+                        src={(() => {
+                          if (selectedRestaurant.image_url) {
                               return selectedRestaurant.image_url.startsWith('http') ? selectedRestaurant.image_url : `${BASE_URL}${selectedRestaurant.image_url}`;
-                            }
-                            if (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) {
+                          }
+                          if (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) {
                               return selectedRestaurant.images[0].image_url.startsWith('http') ? selectedRestaurant.images[0].image_url : `${BASE_URL}${selectedRestaurant.images[0].image_url}`;
-                            }
+                          }
                             return '';
-                          })()}
-                          alt={selectedRestaurant.name}
-                          className="w-100 h-100"
-                          style={{ objectFit: 'cover' }}
+                        })()}
+                        alt={selectedRestaurant.name}
+                        className="w-100 h-100"
+                        style={{ objectFit: 'cover' }}
                           onError={(e) => { e.target.style.display = 'none'; }}
-                        />
+                      />
                       ) : (
                         <div className="w-100 h-100 d-flex align-items-center justify-content-center bg-danger" style={{height: '250px', color: 'white', fontSize: '3rem', borderRadius: '1.5rem'}}>
                           <i className="bi bi-cup-hot"></i>

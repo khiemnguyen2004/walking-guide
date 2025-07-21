@@ -877,11 +877,11 @@ function HomePage() {
                           <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                             <div className="position-relative">
                               {restaurant.images && restaurant.images.length > 0 ? (
-                                <img
+                                        <img
                                   src={getImageUrl(restaurant.images[0].image_url)}
                                   alt={restaurant.name}
-                                  className="card-img-top luxury-img-top"
-                                  style={{ height: 220, objectFit: "cover" }}
+                                          className="card-img-top luxury-img-top"
+                                          style={{ height: 220, objectFit: "cover" }}
                                 />
                               ) : (
                                 <div className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
@@ -945,11 +945,11 @@ function HomePage() {
                                   <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                                     <div className="position-relative">
                                       {restaurant.images && restaurant.images.length > 0 ? (
-                                        <img
+                                                <img
                                           src={getImageUrl(restaurant.images[0].image_url)}
                                           alt={restaurant.name}
-                                          className="card-img-top luxury-img-top"
-                                          style={{ height: 220, objectFit: "cover" }}
+                                                  className="card-img-top luxury-img-top"
+                                                  style={{ height: 220, objectFit: "cover" }}
                                         />
                                       ) : (
                                         <div 
