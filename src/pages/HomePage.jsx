@@ -865,36 +865,15 @@ function HomePage() {
                           <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                             <div className="position-relative">
                               {restaurant.images && restaurant.images.length > 0 ? (
-                                <div id={`restaurantCarousel${restaurant.id}`} className="carousel slide" data-bs-ride="false">
-                                  <div className="carousel-inner">
-                                    {restaurant.images.map((image, index) => (
-                                      <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
-                                        <img
-                                          src={getImageUrl(image.image_url)}
-                                          alt={image.caption || restaurant.name}
-                                          className="card-img-top luxury-img-top"
-                                          style={{ height: 220, objectFit: "cover" }}
-                                          onError={(e) => { e.target.src = "/default-restaurant.jpg"; }}
-                                        />
-                                      </div>
-                                    ))}
-                                  </div>
-                                  {restaurant.images.length > 1 && (
-                                    <>
-                                      <button className="carousel-control-prev" type="button" data-bs-target={`#restaurantCarousel${restaurant.id}`} data-bs-slide="prev">
-                                        <span className="carousel-control-prev-icon"></span>
-                                      </button>
-                                      <button className="carousel-control-next" type="button" data-bs-target={`#restaurantCarousel${restaurant.id}`} data-bs-slide="next">
-                                        <span className="carousel-control-next-icon"></span>
-                                      </button>
-                                    </>
-                                  )}
-                                </div>
+                                <img
+                                  src={getImageUrl(restaurant.images[0].image_url)}
+                                  alt={restaurant.name}
+                                  className="card-img-top luxury-img-top"
+                                  style={{ height: 220, objectFit: "cover" }}
+                                />
                               ) : (
-                                <div 
-                                  className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
-                                  style={{ height: 220, background: "linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)", color: "white", fontSize: "3rem" }}
-                                >
+                                <div className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
+                                  style={{ height: 220, borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem", background: "linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)", color: "white", fontSize: "3rem" }}>
                                   <i className="bi bi-cup-hot"></i>
                                 </div>
                               )}
@@ -954,31 +933,12 @@ function HomePage() {
                                   <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                                     <div className="position-relative">
                                       {restaurant.images && restaurant.images.length > 0 ? (
-                                        <div id={`restaurantCarousel${restaurant.id}`} className="carousel slide" data-bs-ride="false">
-                                          <div className="carousel-inner">
-                                            {restaurant.images.map((image, index) => (
-                                              <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
-                                                <img
-                                                  src={getImageUrl(image.image_url)}
-                                                  alt={image.caption || restaurant.name}
-                                                  className="card-img-top luxury-img-top"
-                                                  style={{ height: 220, objectFit: "cover" }}
-                                                  onError={(e) => { e.target.src = "/default-restaurant.jpg"; }}
-                                                />
-                                              </div>
-                                            ))}
-                                          </div>
-                                          {restaurant.images.length > 1 && (
-                                            <>
-                                              <button className="carousel-control-prev" type="button" data-bs-target={`#restaurantCarousel${restaurant.id}`} data-bs-slide="prev">
-                                                <span className="carousel-control-prev-icon"></span>
-                                              </button>
-                                              <button className="carousel-control-next" type="button" data-bs-target={`#restaurantCarousel${restaurant.id}`} data-bs-slide="next">
-                                                <span className="carousel-control-next-icon"></span>
-                                              </button>
-                                            </>
-                                          )}
-                                        </div>
+                                        <img
+                                          src={getImageUrl(restaurant.images[0].image_url)}
+                                          alt={restaurant.name}
+                                          className="card-img-top luxury-img-top"
+                                          style={{ height: 220, objectFit: "cover" }}
+                                        />
                                       ) : (
                                         <div 
                                           className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
