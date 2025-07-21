@@ -6,6 +6,6 @@ export default defineConfig({
   build: {
     outDir: 'docs'
   },
-  base: '/walking-guide/',
+  base: '/', // Use '/' for Vercel
   plugins: [react()],
 })
