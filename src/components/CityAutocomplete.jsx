@@ -36,7 +36,7 @@ const CityAutocomplete = ({ value, onChange, onKeyPress, placeholder = "Thành p
     try {
       // Using backend geocoding endpoint with focus on Vietnam and cities
       const response = await fetch(
-        `http://localhost:3000/api/geocoding/search?` +
+        `https://walkingguide.onrender.com/api/geocoding/search?` +
         `q=${encodeURIComponent(query)}&` +
         `limit=10&` +
         `addressdetails=1`

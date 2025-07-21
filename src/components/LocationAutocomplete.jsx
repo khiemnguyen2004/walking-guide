@@ -38,7 +38,7 @@ const LocationAutocomplete = ({ value, onChange, placeholder = "Nhập địa đ
     try {
       // Using backend geocoding endpoint for location search
       const response = await fetch(
-        `http://localhost:3000/api/geocoding/search?` +
+        `https://walkingguide.onrender.com/api/geocoding/search?` +
         `q=${encodeURIComponent(query)}&` +
         `limit=8&` +
         `addressdetails=1`

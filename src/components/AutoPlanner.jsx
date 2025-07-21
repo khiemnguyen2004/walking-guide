@@ -44,7 +44,7 @@ const AutoPlanner = ({ noLayout }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/tags").then(res => setTags(res.data));
+    axios.get("https://walkingguide.onrender.com/api/tags").then(res => setTags(res.data));
   }, []);
 
   const searchPlacesByCity = async (city) => {
