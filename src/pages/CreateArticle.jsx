@@ -27,6 +27,8 @@ function CreateArticle() {
   const [success, setSuccess] = useState("");
   const fileInputRef = useRef(null);
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -87,7 +89,7 @@ function CreateArticle() {
     try {
       const formData = new FormData();
       formData.append("file", imageFile);
-      const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+      const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return uploadRes.data.url;
