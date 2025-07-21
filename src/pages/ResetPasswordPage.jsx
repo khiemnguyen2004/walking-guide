@@ -14,6 +14,8 @@ function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -32,7 +34,7 @@ function ResetPasswordPage() {
     }
     setIsLoading(true);
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/reset-password", {
+      const res = await axios.post(`${BASE_URL}/api/auth/reset-password`, {
         token,
         password,
         confirmPassword,

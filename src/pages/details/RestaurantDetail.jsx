@@ -23,9 +23,11 @@ const RestaurantDetail = () => {
   const [menuLoading, setMenuLoading] = useState(true);
   const [selectedMenu, setSelectedMenu] = useState(null);
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:3000/api/restaurants/${id}`)
+    axios.get(`${BASE_URL}/api/restaurants/${id}`)
       .then(res => setRestaurant(res.data.data))
       .catch(() => setError('Không tìm thấy nhà hàng này.'))
       .finally(() => setLoading(false));
@@ -33,11 +35,11 @@ const RestaurantDetail = () => {
 
   useEffect(() => {
     setMenuLoading(true);
-    axios.get(`http://localhost:3000/api/restaurants/${id}/menus`)
+    axios.get(`${BASE_URL}/api/restaurants/${id}/menus`)
       .then(async res => {
         const menus = res.data.data || [];
         const menusWithItems = await Promise.all(menus.map(async (menu) => {
-          const itemsRes = await axios.get(`http://localhost:3000/api/restaurants/menus/${menu.id}/items`).catch(() => ({ data: { data: [] } }));
+          const itemsRes = await axios.get(`${BASE_URL}/api/restaurants/menus/${menu.id}/items`).catch(() => ({ data: { data: [] } }));
           return { ...menu, items: itemsRes.data.data || [] };
         }));
         setMenu(menusWithItems);
@@ -52,7 +54,7 @@ const RestaurantDetail = () => {
   if (!restaurant) return <div className="alert alert-warning mt-4 text-center">Không tìm thấy nhà hàng.</div>;
 
   const imageUrls = restaurant.images ? restaurant.images.map(img => img.image_url) : [];
-  const mainImage = imageUrls.length > 0 ? (imageUrls[0].startsWith('http') ? imageUrls[0] : `http://localhost:3000${imageUrls[0]}`) : null;
+  const mainImage = imageUrls.length > 0 ? (imageUrls[0].startsWith('http') ? imageUrls[0] : `${BASE_URL}${imageUrls[0]}`) : null;
   const galleryImages = imageUrls.length > 1 ? imageUrls.slice(1) : [];
 
   const handleBookTable = async (e) => {
@@ -62,7 +64,7 @@ const RestaurantDetail = () => {
       return;
     }
     try {
-      const res = await axios.post(`http://localhost:3000/api/restaurants/${id}/bookings`, {
+      const res = await axios.post(`${BASE_URL}/api/restaurants/${id}/bookings`, {
         user_id: user.id,
         restaurant_id: id,
         booking_time: bookingTime,
@@ -139,7 +141,7 @@ const RestaurantDetail = () => {
                         <div className="col-md-6 col-lg-4" key={item.id}>
                           <div className="card h-100 shadow-sm">
                             {item.image_url && (
-                              <img src={item.image_url.startsWith('http') ? item.image_url : `http://localhost:3000${item.image_url}`} alt={item.name} className="card-img-top" style={{height: 160, objectFit: 'cover'}} />
+                              <img src={item.image_url.startsWith('http') ? item.image_url : `${BASE_URL}${item.image_url}`} alt={item.name} className="card-img-top" style={{height: 160, objectFit: 'cover'}} />
                             )}
                             <div className="card-body">
                               <h6 className="card-title mb-1 fw-bold">{item.name}</h6>
@@ -171,7 +173,7 @@ const RestaurantDetail = () => {
                 {galleryImages.map((img, idx) => (
                   <img
                     key={idx}
-                    src={img.startsWith('http') ? img : `http://localhost:3000${img}`}
+                    src={img.startsWith('http') ? img : `${BASE_URL}${img}`}
                     alt={restaurant.name}
                     style={{height: 60, width: 90, objectFit: 'cover', borderRadius: 8, border: '1px solid #e9ecef', background: '#f8f9fa'}}
                   />

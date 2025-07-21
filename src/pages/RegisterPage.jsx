@@ -22,6 +22,8 @@ function RegisterPage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   // Redirect to home if already logged in
   React.useEffect(() => {
     if (user) {
@@ -49,7 +51,7 @@ function RegisterPage() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/register", {
+      const response = await axios.post(`${BASE_URL}/api/auth/register`, {
         full_name,
         email,
         password,
@@ -78,7 +80,7 @@ function RegisterPage() {
     setResendMessage("");
     setResendError("");
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/resend-verification", { email: registeredEmail });
+      const res = await axios.post(`${BASE_URL}/api/auth/resend-verification`, { email: registeredEmail });
       setResendMessage(res.data.message || "Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn.");
     } catch (err) {
       setResendError(err.response?.data?.message || "Lỗi gửi lại email xác thực");

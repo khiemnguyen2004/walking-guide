@@ -20,6 +20,8 @@ import { Modal, Button } from 'react-bootstrap';
 import hotelIconSvg from '../../assets/hotel-marker.svg';
 import restaurantIconSvg from '../../assets/restaurant-marker.svg';
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 // Component to handle map centering
 const MapCenterHandler = ({ places }) => {
   const map = useMap();
@@ -44,7 +46,7 @@ const createCustomIcon = (place) => {
   const iconSize = 40;
   const iconAnchor = iconSize / 2;
   if (place.image_url) {
-    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`;
+    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`;
     return new L.DivIcon({
       className: 'custom-marker',
       html: `
@@ -163,15 +165,15 @@ const TourDetail = () => {
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/tours/${id}`);
-        if (!response.ok) {
+        const response = await axios.get(`${BASE_URL}/api/tours/${id}`);
+        if (response.status !== 200) {
           throw new Error('Không tìm thấy lộ trình');
         }
-        const contentType = response.headers.get("content-type");
+        const contentType = response.headers["content-type"];
         if (!contentType || !contentType.includes("application/json")) {
           throw new Error("Server trả về dữ liệu không hợp lệ");
         }
-        const data = await response.json();
+        const data = response.data;
         console.log('Fetched tour:', data); // Debug log
         setTour(data);
         setLoading(false);
@@ -206,7 +208,7 @@ const TourDetail = () => {
       // Only fetch for valid place_id
       const validSteps = sortedSteps.filter(s => s.place_id && !isNaN(Number(s.place_id)));
       const places = await Promise.all(
-        validSteps.map(s => axios.get(`http://localhost:3000/api/places/${Number(s.place_id)}`).then(r => r.data))
+        validSteps.map(s => axios.get(`${BASE_URL}/api/places/${Number(s.place_id)}`).then(r => r.data))
       );
       setRoutePlaces(places);
       // Attach place objects to valid steps, leave others unchanged
@@ -437,7 +439,7 @@ const TourDetail = () => {
               boxShadow: '0 4px 32px 0 rgba(177, 178, 189, 0.13)'
             }}>
                 <img
-                  src={tour.image_url.startsWith('http') ? tour.image_url : `http://localhost:3000${tour.image_url}`}
+                  src={tour.image_url.startsWith('http') ? tour.image_url : `${BASE_URL}${tour.image_url}`}
                   alt={tour.name}
                 style={{
                   width: '100%',
@@ -684,7 +686,7 @@ const TourDetail = () => {
                         <div className="position-relative">
                           {hotel.images && hotel.images.length > 0 && hotel.images[0].image_url ? (
                             <img 
-                              src={hotel.images[0].image_url.startsWith('http') ? hotel.images[0].image_url : `http://localhost:3000${hotel.images[0].image_url}`} 
+                              src={hotel.images[0].image_url.startsWith('http') ? hotel.images[0].image_url : `${BASE_URL}${hotel.images[0].image_url}`} 
                               alt={hotel.name} 
                               className="card-img-top luxury-img-top" 
                               style={{ height: 220, objectFit: 'cover' }} 
@@ -763,7 +765,7 @@ const TourDetail = () => {
                         <div className="position-relative">
                           {restaurant.images && restaurant.images.length > 0 && restaurant.images[0].image_url ? (
                             <img 
-                              src={restaurant.images[0].image_url.startsWith('http') ? restaurant.images[0].image_url : `http://localhost:3000${restaurant.images[0].image_url}`} 
+                              src={restaurant.images[0].image_url.startsWith('http') ? restaurant.images[0].image_url : `${BASE_URL}${restaurant.images[0].image_url}`} 
                               alt={restaurant.name} 
                               className="card-img-top luxury-img-top" 
                               style={{ height: 220, objectFit: 'cover' }} 
@@ -862,7 +864,7 @@ const TourDetail = () => {
                               <div className="position-relative">
                                 {t.image_url ? (
                                   <img
-                                    src={t.image_url.startsWith('http') ? t.image_url : `http://localhost:3000${t.image_url}`}
+                                    src={t.image_url.startsWith('http') ? t.image_url : `${BASE_URL}${t.image_url}`}
                                     alt={t.name}
                                     className="card-img-top luxury-img-top"
                                     style={{ height: 220, objectFit: 'cover' }}

@@ -17,7 +17,7 @@ function TourPage() {
     const fetchTours = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:3000/api/tours");
+        const res = await axios.get("https://walkingguide.onrender.com/api/tours");
         // Sort tours by updated_at descending (newest first)
         const sortedTours = res.data.sort((a, b) => 
           new Date(b.updated_at || 0) - new Date(a.updated_at || 0)
@@ -89,7 +89,7 @@ function TourPage() {
                   <Link to={`/tours/${tour.id}`} className="text-decoration-none">
                     {tour.image_url ? (
                       <img
-                        src={tour.image_url.startsWith("http") ? tour.image_url : `http://localhost:3000${tour.image_url}`}
+                        src={tour.image_url.startsWith("http") ? tour.image_url : `https://walkingguide.onrender.com${tour.image_url}`}
                         alt={tour.name}
                         className="card-img-top luxury-img-top"
                         style={{

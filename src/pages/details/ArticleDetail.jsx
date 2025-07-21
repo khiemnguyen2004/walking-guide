@@ -48,7 +48,7 @@ const ArticleDetail = () => {
 
     const fetchArticle = async () => {
       try {
-        const apiUrl = `http://localhost:3000/api/articles/${id}`; // Cập nhật URL
+        const apiUrl = `${BASE_URL}/api/articles/${id}`; // Cập nhật URL
         const response = await fetch(apiUrl, {
           method: 'GET',
           headers: {
@@ -106,19 +106,19 @@ const ArticleDetail = () => {
     // Fetch likes and comments
     if (!id) return;
     // Fetch like count
-    fetch(`http://localhost:3000/api/article-likes/${id}/likes`)
+    fetch(`${BASE_URL}/api/article-likes/${id}/likes`)
       .then(res => res.json())
       .then(data => setLikeCount(data.count || 0));
     // Fetch liked status
     if (user) {
-      fetch(`http://localhost:3000/api/article-likes/is-liked?article_id=${id}&user_id=${user.id}`)
+      fetch(`${BASE_URL}/api/article-likes/is-liked?article_id=${id}&user_id=${user.id}`)
         .then(res => res.json())
         .then(data => setLiked(!!data.liked));
     } else {
       setLiked(false);
     }
     // Fetch comments
-    fetch(`http://localhost:3000/api/article-comments/${id}`)
+    fetch(`${BASE_URL}/api/article-comments/${id}`)
       .then(res => res.json())
       .then(data => setComments(Array.isArray(data) ? data : []));
     // Fetch all users for comment display
@@ -145,7 +145,7 @@ const ArticleDetail = () => {
   const handleLike = async () => {
     if (!user) return;
     const url = liked ? 'unlike' : 'like';
-    await fetch(`http://localhost:3000/api/article-likes/${url}`, {
+    await fetch(`${BASE_URL}/api/article-likes/${url}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ article_id: id, user_id: user.id })
@@ -161,7 +161,7 @@ const ArticleDetail = () => {
     setCommentLoading(true);
     setCommentError("");
     try {
-      const res = await fetch(`http://localhost:3000/api/article-comments/`, {
+      const res = await fetch(`${BASE_URL}/api/article-comments/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ article_id: id, user_id: user.id, content: commentText })
@@ -169,7 +169,7 @@ const ArticleDetail = () => {
       if (!res.ok) throw new Error('Lỗi khi gửi bình luận');
       setCommentText("");
       // Refresh comments
-      fetch(`http://localhost:3000/api/article-comments/${id}`)
+      fetch(`${BASE_URL}/api/article-comments/${id}`)
         .then(res => res.json())
         .then(data => setComments(Array.isArray(data) ? data : []));
     } catch (err) {
@@ -193,7 +193,7 @@ const ArticleDetail = () => {
     setCommentLoading(true);
     setCommentError("");
     try {
-      const res = await fetch(`http://localhost:3000/api/article-comments/${comment.id}`, {
+      const res = await fetch(`${BASE_URL}/api/article-comments/${comment.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: editingCommentText, user_id: user.id })
@@ -202,7 +202,7 @@ const ArticleDetail = () => {
       setEditingCommentId(null);
       setEditingCommentText("");
       // Refresh comments
-      fetch(`http://localhost:3000/api/article-comments/${id}`)
+      fetch(`${BASE_URL}/api/article-comments/${id}`)
         .then(res => res.json())
         .then(data => setComments(Array.isArray(data) ? data : []));
     } catch (err) {
@@ -217,14 +217,14 @@ const ArticleDetail = () => {
     setCommentLoading(true);
     setCommentError("");
     try {
-      const res = await fetch(`http://localhost:3000/api/article-comments/${comment.id}`, {
+      const res = await fetch(`${BASE_URL}/api/article-comments/${comment.id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: user.id })
       });
       if (!res.ok) throw new Error('Lỗi khi xóa bình luận');
       // Refresh comments
-      fetch(`http://localhost:3000/api/article-comments/${id}`)
+      fetch(`${BASE_URL}/api/article-comments/${id}`)
         .then(res => res.json())
         .then(data => setComments(Array.isArray(data) ? data : []));
     } catch (err) {
@@ -281,7 +281,7 @@ const ArticleDetail = () => {
             {article.image_url && (
               <div className="d-flex justify-content-center mb-4">
                 <img
-                  src={article.image_url.startsWith('http') ? article.image_url : `http://localhost:3000${article.image_url}`}
+                  src={article.image_url.startsWith('http') ? article.image_url : `${BASE_URL}${article.image_url}`}
                   alt={article.title}
                   style={{ maxWidth: '420px', maxHeight: '260px', width: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 2px 12px #b6e0fe55' }}
                 />
@@ -403,7 +403,7 @@ const ArticleDetail = () => {
                           <Link to={`/articles/${a.article_id}`} className="text-decoration-none">
                             {a.image_url && (
                               <img
-                                src={a.image_url.startsWith('http') ? a.image_url : `http://localhost:3000${a.image_url}`}
+                                src={a.image_url.startsWith('http') ? a.image_url : `${BASE_URL}${a.image_url}`}
                                 alt={a.title}
                                 className="card-img-top luxury-img-top"
                                 style={{ height: 220, objectFit: 'cover', borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem' }}
@@ -454,7 +454,7 @@ const ArticleDetail = () => {
           setReportError(null);
           setReportSuccess(false);
           try {
-            const res = await fetch(`http://localhost:3000/api/articles/${id}/report`, {
+            const res = await fetch(`${BASE_URL}/api/articles/${id}/report`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

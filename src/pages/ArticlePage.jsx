@@ -13,11 +13,13 @@ function ArticlePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:3000/api/articles");
+        const res = await axios.get(`${BASE_URL}/api/articles`);
         // Sort articles by updated_at descending (newest first)
         const sortedArticles = res.data.sort((a, b) => 
           new Date(b.updated_at || 0) - new Date(a.updated_at || 0)
@@ -83,7 +85,7 @@ function ArticlePage() {
                   <Link to={`/articles/${article.article_id || article.id}`} className="text-decoration-none">
                     {article.image_url ? (
                       <img
-                        src={article.image_url.startsWith("http") ? article.image_url : `http://localhost:3000${article.image_url}`}
+                        src={article.image_url.startsWith("http") ? article.image_url : `${BASE_URL}${article.image_url}`}
                         alt={article.title}
                         className="card-img-top luxury-img-top"
                         style={{

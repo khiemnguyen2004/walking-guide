@@ -9,6 +9,8 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { AuthContext } from '../../contexts/AuthContext';
 import RatingStars from '../../components/RatingStars';
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 const HotelDetail = () => {
   const { id } = useParams();
   const [hotel, setHotel] = useState(null);
@@ -24,7 +26,7 @@ const HotelDetail = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:3000/api/hotels/${id}`)
+    axios.get(`${BASE_URL}/api/hotels/${id}`)
       .then(res => setHotel(res.data.data))
       .catch(() => setError('Không tìm thấy khách sạn này.'))
       .finally(() => setLoading(false));
@@ -35,7 +37,7 @@ const HotelDetail = () => {
   if (!hotel) return <div className="alert alert-warning mt-4 text-center">Không tìm thấy khách sạn.</div>;
 
   const imageUrls = hotel.images ? hotel.images.map(img => img.image_url) : [];
-  const mainImage = imageUrls.length > 0 ? (imageUrls[0].startsWith('http') ? imageUrls[0] : `http://localhost:3000${imageUrls[0]}`) : null;
+  const mainImage = imageUrls.length > 0 ? (imageUrls[0].startsWith('http') ? imageUrls[0] : `${BASE_URL}${imageUrls[0]}`) : null;
   const galleryImages = imageUrls.length > 1 ? imageUrls.slice(1) : [];
 
   // Modal handler
@@ -87,7 +89,7 @@ const HotelDetail = () => {
             {galleryImages.length > 0 && (
               <div className="d-flex flex-wrap gap-2 mt-2 justify-content-end">
                 {galleryImages.map((img, idx) => {
-                  const imgUrl = img.startsWith('http') ? img : `http://localhost:3000${img}`;
+                  const imgUrl = img.startsWith('http') ? img : `${BASE_URL}${img}`;
                   return (
                     <img
                       key={idx}

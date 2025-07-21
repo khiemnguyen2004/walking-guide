@@ -69,6 +69,8 @@ function MyTours() {
   const [selectAllBookings, setSelectAllBookings] = useState(false);
   const [hotelBookings, setHotelBookings] = useState([]);
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   // Handle select all for tours
   const handleSelectAllTours = (e) => {
     setSelectAllTours(e.target.checked);
@@ -93,7 +95,7 @@ function MyTours() {
       'Bạn có chắc chắn muốn xóa các tour đã chọn?',
       async () => {
         try {
-          await Promise.all(selectedTourIds.map(id => axios.delete(`http://localhost:3000/api/tours/${id}`)));
+          await Promise.all(selectedTourIds.map(id => axios.delete(`${BASE_URL}/api/tours/${id}`)));
           setTours(prev => prev.filter(t => !selectedTourIds.includes(t.id)));
           setSelectedTourIds([]);
           setSelectAllTours(false);
@@ -111,7 +113,7 @@ function MyTours() {
       'Bạn có chắc chắn muốn hủy các booking đã chọn?',
       async () => {
         try {
-          await Promise.all(selectedBookingIds.map(id => axios.delete(`http://localhost:3000/api/bookings/${id}`)));
+          await Promise.all(selectedBookingIds.map(id => axios.delete(`${BASE_URL}/api/bookings/${id}`)));
           setBookedTours(prev => prev.filter(t => !selectedBookingIds.includes(t.booking?.id)));
           setSelectedBookingIds([]);
           setSelectAllBookings(false);
@@ -126,7 +128,7 @@ function MyTours() {
 
   useEffect(() => {
     if (!user) return;
-    axios.get(`http://localhost:3000/api/tours/user/${user.id}`)
+    axios.get(`${BASE_URL}/api/tours/user/${user.id}`)
       .then(res => {
         setTours(res.data);
         if (res.data.length > 0) setSelected(res.data[0]);
@@ -234,7 +236,7 @@ function MyTours() {
       const autoTourName = firstPlace ? firstPlace.name : editForm.name;
       const autoImageUrl = firstPlace && firstPlace.image_url ? firstPlace.image_url : editForm.image_url;
       // Update tour info
-      const res = await axios.put(`http://localhost:3000/api/tours/${selected.id}`, {
+      const res = await axios.put(`${BASE_URL}/api/tours/${selected.id}`, {
         name: autoTourName,
         description: editForm.description,
         image_url: autoImageUrl,
@@ -245,7 +247,7 @@ function MyTours() {
       });
       // Update steps
       await Promise.all(editForm.steps.map(s =>
-        axios.put(`http://localhost:3000/api/tour-steps/${s.id}`, {
+        axios.put(`${BASE_URL}/api/tour-steps/${s.id}`, {
           place_id: s.place_id,
           stay_duration: s.stay_duration,
           step_order: s.step_order,
@@ -256,7 +258,7 @@ function MyTours() {
       ));
       // Delete removed steps
       await Promise.all(removedStepIds.map(id =>
-        axios.delete(`http://localhost:3000/api/tour-steps/${id}`)
+        axios.delete(`${BASE_URL}/api/tour-steps/${id}`)
       ));
       setTours((prev) =>
         prev.map((t) => (t.id === selected.id ? { ...t, ...res.data } : t))
@@ -302,7 +304,7 @@ function MyTours() {
 
   const handleDeleteTour = async (tourId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/tours/${tourId}`);
+      await axios.delete(`${BASE_URL}/api/tours/${tourId}`);
       setTours(prev => prev.filter(t => t.id !== tourId));
       setShowTourModal(false);
       showSuccess('Đã xóa tour thành công!');
@@ -318,7 +320,7 @@ function MyTours() {
       return;
     }
     try {
-      const res = await axios.delete(`http://localhost:3000/api/bookings/${bookingId}`);
+      const res = await axios.delete(`${BASE_URL}/api/bookings/${bookingId}`);
       if (res.status === 200 && res.data?.message) {
         setBookedTours(prev => prev.filter(t => t.booking?.id !== bookingId));
         setShowTourModal(false);
@@ -337,7 +339,7 @@ function MyTours() {
       return;
     }
     try {
-      const res = await axios.delete(`http://localhost:3000/api/hotels/hotel-bookings/${bookingId}`);
+      const res = await axios.delete(`${BASE_URL}/api/hotels/hotel-bookings/${bookingId}`);
       if (res.status === 200 && res.data?.message) {
         setHotelBookings(prev => prev.filter(b => b.id !== bookingId));
         showSuccess('Đã hủy đặt khách sạn thành công!');
@@ -397,7 +399,7 @@ function MyTours() {
                   <div className="d-flex justify-content-center gap-3 mt-4">
                     <button className="btn btn-danger" style={{fontWeight:600}} onClick={async () => {
                       try {
-                        await axios.delete(`http://localhost:3000/api/tours/${tourToDelete.id}`);
+                        await axios.delete(`${BASE_URL}/api/tours/${tourToDelete.id}`);
                         setTours(tours.filter(tour => tour.id !== tourToDelete.id));
                         if (selected && selected.id === tourToDelete.id) setSelected(null);
                         setShowDeleteModal(false);
@@ -717,7 +719,7 @@ function MyTours() {
                     <Link to={`/tours/${tour.id}`} className="text-decoration-none" style={{display:'block'}}>
                       {tour.image_url ? (
                         <img
-                          src={tour.image_url.startsWith('http') ? tour.image_url : `http://localhost:3000${tour.image_url}`}
+                          src={tour.image_url.startsWith('http') ? tour.image_url : `${BASE_URL}${tour.image_url}`}
                           alt={tour.name}
                           className="card-img-top luxury-img-top"
                           style={{ height: 220, objectFit: "cover" }}
@@ -805,7 +807,7 @@ function MyTours() {
                       <div className="position-relative">
                         {booking.hotel_image_url ? (
                           <img
-                            src={booking.hotel_image_url.startsWith('http') ? booking.hotel_image_url : `http://localhost:3000${booking.hotel_image_url}`}
+                            src={booking.hotel_image_url.startsWith('http') ? booking.hotel_image_url : `${BASE_URL}${booking.hotel_image_url}`}
                             alt={booking.hotel_name || 'Khách sạn'}
                             className="card-img-top luxury-img-top"
                             style={{ height: 180, objectFit: "cover", borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
@@ -873,8 +875,8 @@ function MyTours() {
                 // Always use first place's name and image if available
                 const cardName = firstPlace?.name || tour.name;
                 const cardImg = firstPlace?.image_url
-                  ? (firstPlace.image_url.startsWith('http') ? firstPlace.image_url : `http://localhost:3000${firstPlace.image_url}`)
-                  : (tour.image_url ? (tour.image_url.startsWith('http') ? tour.image_url : `http://localhost:3000${tour.image_url}`) : null);
+                  ? (firstPlace.image_url.startsWith('http') ? firstPlace.image_url : `${BASE_URL}${firstPlace.image_url}`)
+                  : (tour.image_url ? (tour.image_url.startsWith('http') ? tour.image_url : `${BASE_URL}${tour.image_url}`) : null);
                 return (
                   <div className="col-12 col-md-6 col-lg-4" key={tour.id}>
                     <div
@@ -949,7 +951,7 @@ function MyTours() {
         <Modal.Body>
           {modalTour?.image_url && (
             <img
-              src={modalTour.image_url.startsWith('http') ? modalTour.image_url : `http://localhost:3000${modalTour.image_url}`}
+              src={modalTour.image_url.startsWith('http') ? modalTour.image_url : `${BASE_URL}${modalTour.image_url}`}
               alt={modalTour.name}
               className="img-fluid rounded mb-3"
               style={{ maxHeight: 200, objectFit: 'cover', width: '100%' }}
@@ -972,7 +974,7 @@ function MyTours() {
                     <div key={step.id || idx} className="list-group-item d-flex align-items-center gap-3 py-3" style={{borderLeft: '4px solid #1a5bb8', background: '#f8f9fa', borderRadius: 12, marginBottom: 8, boxShadow: '0 2px 8px #b6e0fe22'}}>
                       {place?.image_url && (
                         <img
-                          src={place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`}
+                          src={place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`}
                           alt={place.name}
                           style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 12, boxShadow: '0 2px 8px #b6e0fe33', flexShrink: 0 }}
                         />

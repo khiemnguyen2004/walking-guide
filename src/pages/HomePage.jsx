@@ -1021,7 +1021,7 @@ function HomePage() {
             
             {/* Fast Plan Banner Section with Winding Route and Random Places */}
             <section className="autoplanner-banner-section my-5 py-5 text-center rounded-4 shadow-lg" style={{
-              background: `url('/src/images/banner2.jpg') center/cover no-repeat`,
+              background: `url('/walking-guide/banner2.jpg') center/cover no-repeat`,
               position: 'relative',
               boxShadow: '0 8px 32px 0 rgba(125, 127, 167, 0.13)'
             }}>

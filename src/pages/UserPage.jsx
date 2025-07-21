@@ -163,7 +163,7 @@ function UserPage() {
     const formData = new FormData();
     formData.append('file', file);
     
-    const response = await fetch('http://localhost:3000/api/upload', {
+    const response = await fetch('https://walkingguide.onrender.com/api/upload', {
       method: 'POST',
       body: formData,
     });
@@ -232,7 +232,7 @@ function UserPage() {
           <div className="profile-avatar">
             {userProfile?.image_url ? (
               <img
-                src={userProfile.image_url.startsWith("http") ? userProfile.image_url : `http://localhost:3000${userProfile.image_url}`}
+                src={userProfile.image_url.startsWith("http") ? userProfile.image_url : `${BASE_URL}${userProfile.image_url}`}
                 alt={userProfile.full_name}
                 className="avatar-image"
                 style={{
@@ -482,7 +482,7 @@ function UserPage() {
                       <div className="tour-image">
                         {tour.image_url ? (
                           <img
-                            src={tour.image_url.startsWith("http") ? tour.image_url : `http://localhost:3000${tour.image_url}`}
+                            src={tour.image_url.startsWith("http") ? tour.image_url : `${BASE_URL}${tour.image_url}`}
                             alt={tour.name}
                             style={{
                               width: '80px',
