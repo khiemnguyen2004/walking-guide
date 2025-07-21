@@ -8,10 +8,12 @@ function LoginForm({ onSuccess, onSwitch, onForgotPassword, onLoginSuccess }) {
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", {
+      const res = await axios.post(`${BASE_URL}/api/auth/login`, {
         email,
         password,
       });
