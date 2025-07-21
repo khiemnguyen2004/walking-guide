@@ -14,6 +14,8 @@ function RegisterForm({ onSuccess, onSwitch }) {
   const [resendError, setResendError] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
@@ -35,7 +37,7 @@ function RegisterForm({ onSuccess, onSwitch }) {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/register", {
+      const response = await axios.post(`${BASE_URL}/api/auth/register`, {
         full_name,
         email,
         password,
