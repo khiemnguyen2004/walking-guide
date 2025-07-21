@@ -7,6 +7,8 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   useEffect(() => {
     const token = searchParams.get('token');
     if (!token) {
@@ -14,7 +16,7 @@ const VerifyEmail = () => {
       setLoading(false);
       return;
     }
-    fetch(`http://localhost:3000/api/auth/verify-email?token=${token}`)
+    fetch(`${BASE_URL}/api/auth/verify-email?token=${token}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
