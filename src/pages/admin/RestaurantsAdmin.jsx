@@ -1143,7 +1143,7 @@ function RestaurantsAdmin() {
                                   alt={`Nhà hàng ${index + 1}`}
                                   style={{ height: "200px", objectFit: "cover" }}
                                   onError={(e) => {
-                                    e.target.src = "/default-restaurant.jpg";
+                                    e.target.style.display = 'none';
                                   }}
                                 />
                                 <div className="position-absolute top-0 start-0 p-2">
@@ -1219,7 +1219,7 @@ function RestaurantsAdmin() {
                                     style={{ height: "100px", objectFit: "cover", cursor: 'pointer' }}
                                     onClick={() => setSelectedImage(image)}
                                     onError={(e) => {
-                                      e.target.src = "/default-restaurant.jpg";
+                                      e.target.style.display = 'none';
                                     }}
                                   />
                                   {image.is_primary && (
