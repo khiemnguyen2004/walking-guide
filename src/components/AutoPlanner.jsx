@@ -9,6 +9,8 @@ import placeApi from "../api/placeApi.js";
 import "../css/luxury-home.css";
 import { useNavigate, Link } from "react-router-dom";
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 const AutoPlanner = ({ noLayout }) => {
   const [interests, setInterests] = useState("");
   const [total_cost, setTotal_cost] = useState("");
@@ -81,7 +83,7 @@ const AutoPlanner = ({ noLayout }) => {
     try {
       // Get coordinates for the city using backend geocoding
       const geocodeResponse = await fetch(
-        `http://localhost:3000/api/geocoding/coordinates?q=${encodeURIComponent(selectedCity)}&limit=1`
+        `${BASE_URL}/api/geocoding/coordinates?q=${encodeURIComponent(selectedCity)}&limit=1`
       );
       const geocodeData = await geocodeResponse.json();
       
@@ -205,7 +207,7 @@ const AutoPlanner = ({ noLayout }) => {
         }
       }
       
-      const response = await axios.post("http://localhost:3000/api/tours", {
+      const response = await axios.post(`${BASE_URL}/api/tours`, {
         name: tourName || tourData.tour.name,
         description: tourData.tour.description,
         image_url: tourImageUrl, // set cover image
@@ -514,7 +516,7 @@ const AutoPlanner = ({ noLayout }) => {
                       <div className="card h-100 border-0 shadow-sm">
                         {place.image_url && (
                           <img
-                            src={place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`}
+                            src={place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`}
                             className="card-img-top"
                             alt={place.name}
                             style={{ height: '150px', objectFit: 'cover' }}
@@ -682,7 +684,7 @@ const AutoPlanner = ({ noLayout }) => {
                           <Link to={step.place ? `/places/${step.place.id}` : '#'} className="text-decoration-none">
                             <div className="card h-100 shadow-sm">
                               {step.place && step.place.image_url && (
-                                <img src={step.place.image_url.startsWith('http') ? step.place.image_url : `http://localhost:3000${step.place.image_url}`} alt={step.place.name} className="card-img-top" style={{height: 140, objectFit: 'cover'}} />
+                                <img src={step.place.image_url.startsWith('http') ? step.place.image_url : `${BASE_URL}${step.place.image_url}`} alt={step.place.name} className="card-img-top" style={{height: 140, objectFit: 'cover'}} />
                               )}
                               <div className="card-body">
                                 <h6 className="card-title mb-1 fw-bold">{step.place?.name}</h6>
