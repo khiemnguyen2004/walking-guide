@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://walkingguide.onrender.com/api", // Updated to Render backend
   headers: {
     "Content-Type": "application/json",
   },
