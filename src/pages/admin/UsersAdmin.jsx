@@ -47,7 +47,7 @@ function UsersAdmin() {
     const formData = new FormData();
     formData.append('file', file);
     
-    const response = await axios.post('http://localhost:3000/api/upload', formData, {
+    const response = await axios.post(`${BASE_URL}/api/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
