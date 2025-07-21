@@ -25,8 +25,10 @@ function UsersAdmin() {
     fetchUsers();
   }, []);
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   const fetchUsers = async () => {
-    const res = await axios.get("http://localhost:3000/api/users");
+    const res = await axios.get(`${BASE_URL}/api/users`);
     setUsers(res.data);
   };
 
@@ -62,7 +64,7 @@ function UsersAdmin() {
         imageUrl = await uploadImage(imageFile);
       }
 
-      await axios.post("http://localhost:3000/api/users", {
+      await axios.post(`${BASE_URL}/api/users`, {
         full_name: fullName,
         email,
         image_url: imageUrl,
@@ -102,7 +104,7 @@ function UsersAdmin() {
         imageUrl = await uploadImage(imageFile);
       }
 
-      await axios.put(`http://localhost:3000/api/users/${editId}`, {
+      await axios.put(`${BASE_URL}/api/users/${editId}`, {
         full_name: fullName,
         email,
         image_url: imageUrl,
@@ -131,7 +133,7 @@ function UsersAdmin() {
     if (!userToDelete) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/users/${userToDelete}`);
+      await axios.delete(`${BASE_URL}/api/users/${userToDelete}`);
       fetchUsers();
       setShowDeleteModal(false);
       setUserToDelete(null);
