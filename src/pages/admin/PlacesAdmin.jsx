@@ -61,7 +61,7 @@ function PlacesAdmin() {
       return imageUrl; // Already absolute URL
     }
     // Prepend backend URL for relative paths
-    return `http://localhost:3000${imageUrl}`;
+    return `${BASE_URL}${imageUrl}`;
   };
 
   // Address autocomplete with debouncing
@@ -80,7 +80,7 @@ function PlacesAdmin() {
       }
 
       const response = await axios.get(
-        `http://localhost:3000/api/geocoding/search?q=${encodeURIComponent(searchQuery)}&limit=5&addressdetails=1`
+        `${BASE_URL}/api/geocoding/search?q=${encodeURIComponent(searchQuery)}&limit=5&addressdetails=1`
       );
       setAddressSuggestions(response.data);
       setShowSuggestions(true);

@@ -60,12 +60,12 @@ function ArticlesAdmin() {
       const formData = new FormData();
       formData.append("file", imageFile);
       // You need to have an endpoint to handle this upload, e.g. /api/upload
-      const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+      const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       uploadedImageUrl = uploadRes.data.url;
     }
-    await axios.post("http://localhost:3000/api/articles", {
+    await axios.post(`${BASE_URL}/api/articles`, {
       title,
       content,
       image_url: uploadedImageUrl,
@@ -91,12 +91,12 @@ function ArticlesAdmin() {
     if (imageFile) {
       const formData = new FormData();
       formData.append("file", imageFile);
-      const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+      const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       uploadedImageUrl = uploadRes.data.url;
     }
-    await axios.put(`http://localhost:3000/api/articles/${editId}`, {
+    await axios.put(`${BASE_URL}/api/articles/${editId}`, {
       title,
       content,
       image_url: uploadedImageUrl,
@@ -312,7 +312,7 @@ function ArticlesAdmin() {
                           <td>
                             {a.image_url ? (
                               <img
-                                src={a.image_url.startsWith('http') ? a.image_url : `http://localhost:3000${a.image_url}`}
+                                src={a.image_url.startsWith('http') ? a.image_url : `${BASE_URL}${a.image_url}`}
                                 alt="Ảnh bài viết"
                                 style={{ 
                                   width: '80px', 

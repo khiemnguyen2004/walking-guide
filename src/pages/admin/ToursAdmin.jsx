@@ -33,7 +33,7 @@ function ToursAdmin() {
   const [pendingTours, setPendingTours] = useState([]);
 
   const fetchTours = async () => {
-    const res = await axios.get("http://localhost:3000/api/tours?role=ADMIN");
+    const res = await axios.get(`${BASE_URL}/api/tours?role=ADMIN`);
     setTours(res.data);
     // Fetch steps for all tours
     const stepsMap = {};
@@ -51,7 +51,7 @@ function ToursAdmin() {
   };
 
   const fetchPendingTours = useCallback(async () => {
-    const res = await axios.get("http://localhost:3000/api/tours/pending/user");
+    const res = await axios.get(`${BASE_URL}/api/tours/pending/user`);
     setPendingTours(res.data);
   }, []);
 
@@ -76,7 +76,7 @@ function ToursAdmin() {
     const formData = new FormData();
     formData.append('file', file);
     
-    const response = await axios.post('http://localhost:3000/api/upload', formData, {
+    const response = await axios.post(`${BASE_URL}/api/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

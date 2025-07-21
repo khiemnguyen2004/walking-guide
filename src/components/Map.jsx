@@ -31,7 +31,7 @@ const createCustomIcon = (place) => {
   const iconAnchor = iconSize / 2;
   
   if (place.image_url) {
-    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`;
+    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`;
     
     return new L.DivIcon({
       className: 'custom-marker',

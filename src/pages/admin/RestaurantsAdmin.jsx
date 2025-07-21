@@ -315,7 +315,7 @@ function RestaurantsAdmin() {
       for (let i = 0; i < imageFiles.length; i++) {
         const formData = new FormData();
         formData.append("file", imageFiles[i]);
-        const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+        const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         uploadedImages.push({
@@ -426,7 +426,7 @@ function RestaurantsAdmin() {
           console.log('Uploading image:', image.file.name);
           const formData = new FormData();
           formData.append("file", image.file);
-          const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+          const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
           uploadedImages.push({
