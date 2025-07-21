@@ -654,23 +654,27 @@ function PlaceDetailMap({ place, onClose }) {
                   // Restaurant Info Only (use selectedPlace as restaurant)
                   <>
                     <div className="position-relative" style={{ height: '250px' }}>
-                      <img
-                        src={(() => {
-                          if (selectedRestaurant.image_url) {
-                            return selectedRestaurant.image_url.startsWith('http') ? selectedRestaurant.image_url : `${BASE_URL}${selectedRestaurant.image_url}`;
-                          }
-                          if (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) {
-                            return selectedRestaurant.images[0].image_url.startsWith('http') ? selectedRestaurant.images[0].image_url : `${BASE_URL}${selectedRestaurant.images[0].image_url}`;
-                          }
-                          return '/default-place.jpg';
-                        })()}
-                        alt={selectedRestaurant.name}
-                        className="w-100 h-100"
-                        style={{ objectFit: 'cover' }}
-                        onError={(e) => {
-                          e.target.src = "/default-place.jpg";
-                        }}
-                      />
+                      {selectedRestaurant.image_url || (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) ? (
+                        <img
+                          src={(() => {
+                            if (selectedRestaurant.image_url) {
+                              return selectedRestaurant.image_url.startsWith('http') ? selectedRestaurant.image_url : `${BASE_URL}${selectedRestaurant.image_url}`;
+                            }
+                            if (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) {
+                              return selectedRestaurant.images[0].image_url.startsWith('http') ? selectedRestaurant.images[0].image_url : `${BASE_URL}${selectedRestaurant.images[0].image_url}`;
+                            }
+                            return '';
+                          })()}
+                          alt={selectedRestaurant.name}
+                          className="w-100 h-100"
+                          style={{ objectFit: 'cover' }}
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                      ) : (
+                        <div className="w-100 h-100 d-flex align-items-center justify-content-center bg-danger" style={{height: '250px', color: 'white', fontSize: '3rem', borderRadius: '1.5rem'}}>
+                          <i className="bi bi-cup-hot"></i>
+                        </div>
+                      )}
                       <div className="position-absolute top-0 start-0 w-100 h-100" 
                            style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.4) 100%)' }}>
                       </div>
