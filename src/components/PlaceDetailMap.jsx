@@ -6,6 +6,8 @@ import axios from 'axios';
 import '../css/PlaceDetailMap.css';
 import hotelIconSvg from '../assets/hotel-marker.svg';
 import restaurantIconSvg from '../assets/restaurant-marker.svg';
+import axiosClient from '../api/axiosClient';
+const BASE_URL = "https://walkingguide.onrender.com";
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -20,7 +22,7 @@ const createCustomIcon = (place) => {
   const iconSize = 40;
   const iconAnchor = iconSize / 2;
   if (place.image_url) {
-    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`;
+    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`;
     return new L.DivIcon({
       className: 'custom-marker',
       html: `
@@ -261,7 +263,7 @@ function PlaceDetailMap({ place, onClose }) {
     const fetchPlaces = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:3000/api/places');
+        const response = await axiosClient.get('/places');
         setPlaces(response.data);
         
         // If no place is selected, select the first place
@@ -281,7 +283,7 @@ function PlaceDetailMap({ place, onClose }) {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/hotels');
+        const res = await axiosClient.get('/hotels');
         setHotels(res.data.data || res.data);
       } catch (error) {
         setHotels([]);
@@ -289,7 +291,7 @@ function PlaceDetailMap({ place, onClose }) {
     };
     const fetchRestaurants = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/restaurants');
+        const res = await axiosClient.get('/restaurants');
         setRestaurants(res.data.data || res.data);
       } catch (error) {
         setRestaurants([]);
@@ -576,10 +578,10 @@ function PlaceDetailMap({ place, onClose }) {
                       <img
                         src={(() => {
                           if (selectedHotel.image_url) {
-                            return selectedHotel.image_url.startsWith('http') ? selectedHotel.image_url : `http://localhost:3000${selectedHotel.image_url}`;
+                            return selectedHotel.image_url.startsWith('http') ? selectedHotel.image_url : `${BASE_URL}${selectedHotel.image_url}`;
                           }
                           if (selectedHotel.images && selectedHotel.images[0]?.image_url) {
-                            return selectedHotel.images[0].image_url.startsWith('http') ? selectedHotel.images[0].image_url : `http://localhost:3000${selectedHotel.images[0].image_url}`;
+                            return selectedHotel.images[0].image_url.startsWith('http') ? selectedHotel.images[0].image_url : `${BASE_URL}${selectedHotel.images[0].image_url}`;
                           }
                           return '/default-place.jpg';
                         })()}
@@ -618,7 +620,7 @@ function PlaceDetailMap({ place, onClose }) {
                       <div className="mb-3">
                         <div className="d-flex flex-wrap gap-2">
                           {selectedHotel.images.map((img, idx) => (
-                            img?.image_url && <img key={idx} src={img.image_url.startsWith('http') ? img.image_url : `http://localhost:3000${img.image_url}`} alt="Gallery" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
+                            img?.image_url && <img key={idx} src={img.image_url.startsWith('http') ? img.image_url : `${BASE_URL}${img.image_url}`} alt="Gallery" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
                           ))}
                         </div>
                       </div>
@@ -655,10 +657,10 @@ function PlaceDetailMap({ place, onClose }) {
                       <img
                         src={(() => {
                           if (selectedRestaurant.image_url) {
-                            return selectedRestaurant.image_url.startsWith('http') ? selectedRestaurant.image_url : `http://localhost:3000${selectedRestaurant.image_url}`;
+                            return selectedRestaurant.image_url.startsWith('http') ? selectedRestaurant.image_url : `${BASE_URL}${selectedRestaurant.image_url}`;
                           }
                           if (selectedRestaurant.images && selectedRestaurant.images[0]?.image_url) {
-                            return selectedRestaurant.images[0].image_url.startsWith('http') ? selectedRestaurant.images[0].image_url : `http://localhost:3000${selectedRestaurant.images[0].image_url}`;
+                            return selectedRestaurant.images[0].image_url.startsWith('http') ? selectedRestaurant.images[0].image_url : `${BASE_URL}${selectedRestaurant.images[0].image_url}`;
                           }
                           return '/default-place.jpg';
                         })()}
@@ -697,7 +699,7 @@ function PlaceDetailMap({ place, onClose }) {
                       <div className="mb-3">
                         <div className="d-flex flex-wrap gap-2">
                           {selectedRestaurant.images.map((img, idx) => (
-                            img?.image_url && <img key={idx} src={img.image_url.startsWith('http') ? img.image_url : `http://localhost:3000${img.image_url}`} alt="Gallery" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
+                            img?.image_url && <img key={idx} src={img.image_url.startsWith('http') ? img.image_url : `${BASE_URL}${img.image_url}`} alt="Gallery" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
                           ))}
                         </div>
                       </div>
@@ -735,10 +737,10 @@ function PlaceDetailMap({ place, onClose }) {
                       <img
                         src={(() => {
                           if (selectedPlace?.image_url) {
-                            return selectedPlace.image_url.startsWith('http') ? selectedPlace.image_url : `http://localhost:3000${selectedPlace.image_url}`;
+                            return selectedPlace.image_url.startsWith('http') ? selectedPlace.image_url : `${BASE_URL}${selectedPlace.image_url}`;
                           }
                           if (selectedPlace?.images && selectedPlace.images[0]?.image_url) {
-                            return selectedPlace.images[0].image_url.startsWith('http') ? selectedPlace.images[0].image_url : `http://localhost:3000${selectedPlace.images[0].image_url}`;
+                            return selectedPlace.images[0].image_url.startsWith('http') ? selectedPlace.images[0].image_url : `${BASE_URL}${selectedPlace.images[0].image_url}`;
                           }
                           return '/default-place.jpg';
                         })()}
@@ -776,7 +778,7 @@ function PlaceDetailMap({ place, onClose }) {
                       <div className="mb-3">
                         <div className="d-flex flex-wrap gap-2">
                           {selectedPlace.images.map((img, idx) => (
-                            img?.image_url && <img key={idx} src={img.image_url.startsWith('http') ? img.image_url : `http://localhost:3000${img.image_url}`} alt="Gallery" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
+                            img?.image_url && <img key={idx} src={img.image_url.startsWith('http') ? img.image_url : `${BASE_URL}${img.image_url}`} alt="Gallery" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
                           ))}
                         </div>
                       </div>

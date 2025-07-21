@@ -3,9 +3,12 @@ import AdminHeader from "../../components/AdminHeader.jsx";
 import AdminSidebar from "../../components/AdminSidebar.jsx";
 import CityAutocomplete from "../../components/CityAutocomplete.jsx";
 import axios from "axios";
+import axiosClient from '../../api/axiosClient';
 import { Modal, Button } from "react-bootstrap";
 import "../../css/AdminLayout.css";
 import { Link } from 'react-router-dom';
+
+const BASE_URL = "https://walkingguide.onrender.com";
 
 function HotelsAdmin() {
   const [hotels, setHotels] = useState([]);
@@ -48,7 +51,7 @@ function HotelsAdmin() {
 
   const fetchHotels = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/hotels");
+      const res = await axiosClient.get("/hotels");
       setHotels(res.data.data || res.data);
     } catch (error) {
       console.error("Error fetching hotels:", error);
@@ -62,7 +65,7 @@ function HotelsAdmin() {
       return imageUrl; // Already absolute URL
     }
     // Prepend backend URL for relative paths
-    return `http://localhost:3000${imageUrl}`;
+    return `${BASE_URL}${imageUrl}`;
   };
 
   // Address autocomplete with debouncing
@@ -80,8 +83,8 @@ function HotelsAdmin() {
         searchQuery = `${query}, ${city}`;
       }
 
-      const response = await axios.get(
-        `http://localhost:3000/api/geocoding/search?q=${encodeURIComponent(searchQuery)}&limit=5&addressdetails=1`
+      const response = await axiosClient.get(
+        `/geocoding/search?q=${encodeURIComponent(searchQuery)}&limit=5&addressdetails=1`
       );
       setAddressSuggestions(response.data);
       setShowSuggestions(true);
@@ -249,8 +252,8 @@ function HotelsAdmin() {
   const getCoordinatesFromAddress = async (address) => {
     setIsLoadingLocation(true);
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/geocoding/coordinates?q=${encodeURIComponent(address)}&limit=1`
+      const response = await axiosClient.get(
+        `/geocoding/coordinates?q=${encodeURIComponent(address)}&limit=1`
       );
       
       if (response.data.success && response.data.data) {
@@ -282,7 +285,7 @@ function HotelsAdmin() {
       for (let i = 0; i < imageFiles.length; i++) {
         const formData = new FormData();
         formData.append("file", imageFiles[i]);
-        const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+        const uploadRes = await axiosClient.post("/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         uploadedImages.push({
@@ -294,7 +297,7 @@ function HotelsAdmin() {
       }
 
       // Create the hotel
-      const hotelRes = await axios.post("http://localhost:3000/api/hotels", {
+      const hotelRes = await axiosClient.post("/hotels", {
         name,
         description,
         latitude: coordinates.latitude,
@@ -382,7 +385,7 @@ function HotelsAdmin() {
           console.log('Uploading image:', image.file.name);
           const formData = new FormData();
           formData.append("file", image.file);
-          const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+          const uploadRes = await axiosClient.post("/upload", formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
           uploadedImages.push({
@@ -459,7 +462,7 @@ function HotelsAdmin() {
         }
       }
 
-      const response = await axios.put(`http://localhost:3000/api/hotels/${editId}`, updateData);
+      const response = await axiosClient.put(`/hotels/${editId}`, updateData);
       console.log('Update response:', response.data);
 
       fetchHotels();
@@ -481,7 +484,7 @@ function HotelsAdmin() {
     if (!hotelToDelete) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/hotels/${hotelToDelete}`);
+      await axiosClient.delete(`/hotels/${hotelToDelete}`);
       fetchHotels();
       setShowDeleteModal(false);
       setHotelToDelete(null);

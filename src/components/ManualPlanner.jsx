@@ -12,6 +12,8 @@ import { Card, Button } from "react-bootstrap";
 import groupBy from "lodash/groupBy";
 import hotelApi from '../api/hotelApi';
 import { Modal, Form } from 'react-bootstrap';
+import axiosClient from '../api/axiosClient';
+const BASE_URL = "https://walkingguide.onrender.com";
 
 function ManualPlanner({ noLayout }) {
   const [places, setPlaces] = useState([]);
@@ -51,14 +53,14 @@ function ManualPlanner({ noLayout }) {
   const [selectedRoomType, setSelectedRoomType] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/places").then((res) => {
+    axiosClient.get("/places").then((res) => {
       setPlaces(res.data);
     });
-    axios.get("http://localhost:3000/api/tags").then(res => setTags(res.data));
+    axiosClient.get("/tags").then(res => setTags(res.data));
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/hotels").then((res) => {
+    axiosClient.get("/hotels").then((res) => {
       setHotels(res.data.data || res.data);
     });
   }, []);
@@ -75,7 +77,7 @@ function ManualPlanner({ noLayout }) {
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return "/default-hotel.jpg";
     if (imageUrl.startsWith("http")) return imageUrl;
-    return `http://localhost:3000${imageUrl}`;
+    return `${BASE_URL}${imageUrl}`;
   };
 
   // Helper to get proper place image URL
@@ -83,7 +85,7 @@ function ManualPlanner({ noLayout }) {
     if (!place) return "/default-place.jpg";
     if (place.image_url) {
       if (place.image_url.startsWith("http")) return place.image_url;
-      return `http://localhost:3000${place.image_url}`;
+      return `${BASE_URL}${place.image_url}`;
     }
     return "/default-place.jpg";
   };
@@ -91,12 +93,12 @@ function ManualPlanner({ noLayout }) {
   // Fetch hotels when start_from changes (prefer lat/lng, else city)
   useEffect(() => {
     if (start_from && start_from.latitude && start_from.longitude) {
-      axios.get(`http://localhost:3000/api/hotels/search?latitude=${start_from.latitude}&longitude=${start_from.longitude}&radius=10`)
+      axiosClient.get(`${BASE_URL}/api/hotels/search?latitude=${start_from.latitude}&longitude=${start_from.longitude}&radius=10`)
         .then((res) => {
           setHotels(res.data.data || res.data);
         });
     } else if (start_from && start_from.city) {
-      axios.get(`http://localhost:3000/api/hotels/search?city=${encodeURIComponent(start_from.city)}`)
+      axiosClient.get(`${BASE_URL}/api/hotels/search?city=${encodeURIComponent(start_from.city)}`)
         .then((res) => {
           setHotels(res.data.data || res.data);
         });
@@ -107,7 +109,7 @@ function ManualPlanner({ noLayout }) {
   useEffect(() => {
     if (selectedCities.length > 0) {
       Promise.all(selectedCities.map(city =>
-        axios.get(`http://localhost:3000/api/hotels/search?city=${encodeURIComponent(city)}`)
+        axiosClient.get(`${BASE_URL}/api/hotels/search?city=${encodeURIComponent(city)}`)
           .then(res => ({ city, hotels: res.data.data || res.data }))
           .catch(() => ({ city, hotels: [] }))
       )).then(results => {
@@ -119,7 +121,7 @@ function ManualPlanner({ noLayout }) {
       });
     } else {
       // fallback: fetch all hotels
-      axios.get("http://localhost:3000/api/hotels").then((res) => {
+      axiosClient.get(`${BASE_URL}/api/hotels`).then((res) => {
         setHotelsByCity({ All: res.data.data || res.data });
       });
     }
@@ -151,7 +153,7 @@ function ManualPlanner({ noLayout }) {
       for (const city of cities) {
         try {
           console.log(`Searching places for city: "${city}"`);
-          const response = await axios.get(`http://localhost:3000/api/places/search?city=${encodeURIComponent(city)}`);
+          const response = await axiosClient.get(`${BASE_URL}/api/places/search?city=${encodeURIComponent(city)}`);
           console.log(`Response for "${city}":`, response.data);
           
           if (response.data && response.data.length > 0) {
@@ -167,7 +169,7 @@ function ManualPlanner({ noLayout }) {
             
             // Fallback: search all places and filter by city name
             try {
-              const allPlacesResponse = await axios.get('http://localhost:3000/api/places');
+              const allPlacesResponse = await axiosClient.get(`${BASE_URL}/api/places`);
               const allPlacesData = allPlacesResponse.data;
               
               // Try to find places with similar city names
@@ -361,7 +363,7 @@ function ManualPlanner({ noLayout }) {
     const autoImageUrl = firstPlace && firstPlace.image_url ? firstPlace.image_url : '';
     setIsSubmitting(true);
     try {
-      const res = await axios.post("http://localhost:3000/api/tours", {
+      const res = await axiosClient.post(`${BASE_URL}/api/tours`, {
         name: autoTourName,
         description,
         user_id: userId,

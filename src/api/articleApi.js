@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_BASE = "http://localhost:3000/api/articles";
+const API_BASE = "https://walkingguide.onrender.com/api/articles";
 
 const articleApi = {
   getAll: () => axios.get(API_BASE),

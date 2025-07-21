@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = "https://walkingguide.onrender.com/api";
 
 const userApi = {
   getAll: () => axiosClient.get(`${API_BASE}/users`),

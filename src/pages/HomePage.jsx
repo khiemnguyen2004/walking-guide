@@ -21,6 +21,8 @@ import { useAuth } from '../contexts/AuthContext';
 import tourApi from '../api/tourApi';
 import hotelApi from '../api/hotelApi';
 import { AuthContext } from '../contexts/AuthContext';
+import axiosClient from '../api/axiosClient';
+const BASE_URL = "https://walkingguide.onrender.com";
 
 // Helper to chunk array into groups of 3
 function chunkArray(arr, size) {
@@ -75,7 +77,7 @@ function HomePage() {
       return imageUrl; // Already absolute URL
     }
     // Prepend backend URL for relative paths
-    return `http://localhost:3000${imageUrl}`;
+    return `${BASE_URL}${imageUrl}`;
   };
 
   const handleBookTour = async () => {
@@ -106,11 +108,11 @@ function HomePage() {
       try {
         setLoading(true);
         const [placesRes, toursRes, articlesRes, hotelsRes, restaurantsRes] = await Promise.all([
-          axios.get("http://localhost:3000/api/places"),
-          axios.get("http://localhost:3000/api/tours?adminOnly=true"),
-          axios.get("http://localhost:3000/api/articles"),
-          axios.get("http://localhost:3000/api/hotels"),
-          axios.get("http://localhost:3000/api/restaurants"),
+          axiosClient.get("/places"),
+          axiosClient.get("/tours?adminOnly=true"),
+          axiosClient.get("/articles"),
+          axiosClient.get("/hotels"),
+          axiosClient.get("/restaurants"),
         ]);
         setPlaces(placesRes.data);
         setTours(toursRes.data);
@@ -362,7 +364,7 @@ function HomePage() {
                         <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                           <Link to={`/places/${p.id || p._id}`} className="text-decoration-none">
                             <img
-                              src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `http://localhost:3000${p.image_url}`) : "/default-place.jpg"}
+                              src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `${BASE_URL}${p.image_url}`) : "/default-place.jpg"}
                               alt={p.name}
                               className="card-img-top luxury-img-top"
                               style={{
@@ -424,7 +426,7 @@ function HomePage() {
                                 <div className="card h-100 shadow border-0 rounded-4 luxury-card">
                                   <Link to={`/places/${p.id || p._id}`} className="text-decoration-none">
                                     <img
-                                      src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `http://localhost:3000${p.image_url}`) : "/default-place.jpg"}
+                                      src={p.image_url ? (p.image_url.startsWith("http") ? p.image_url : `${BASE_URL}${p.image_url}`) : "/default-place.jpg"}
                                       alt={p.name}
                                       className="card-img-top luxury-img-top"
                                       style={{
@@ -507,7 +509,7 @@ function HomePage() {
                           <Link to={`/tours/${tour.id}`} className="text-decoration-none">
                             {tour.image_url ? (
                               <img
-                                src={tour.image_url.startsWith("http") ? tour.image_url : `http://localhost:3000${tour.image_url}`}
+                                src={tour.image_url.startsWith("http") ? tour.image_url : `${BASE_URL}${tour.image_url}`}
                                 alt={tour.name}
                                 className="card-img-top luxury-img-top"
                                 style={{ height: 220, objectFit: "cover"}}
@@ -569,7 +571,7 @@ function HomePage() {
                                   <Link to={`/tours/${tour.id}`} className="text-decoration-none">
                                     {tour.image_url ? (
                                       <img
-                                        src={tour.image_url.startsWith("http") ? tour.image_url : `http://localhost:3000${tour.image_url}`}
+                                        src={tour.image_url.startsWith("http") ? tour.image_url : `${BASE_URL}${tour.image_url}`}
                                         alt={tour.name}
                                         className="card-img-top luxury-img-top"
                                         style={{ height: 220, objectFit: "cover" }}
@@ -1078,7 +1080,7 @@ function HomePage() {
                       <Link to={`/places/${place.id}`} key={place.id} className="route-stop d-flex flex-column align-items-center position-absolute text-decoration-none route-stop-link" style={{zIndex: 2, left: `${stopPositions[idx] / 10}%`, top: idx % 2 === 0 ? 0 : 60, minWidth: 80, cursor: 'pointer'}}>
                         <div className="route-img-wrapper mb-2 shadow-lg rounded-circle bg-white d-flex align-items-center justify-content-center" style={{width: 64, height: 64, overflow: 'hidden', border: '3px solid #fff', transition: 'box-shadow 0.2s, border-color 0.2s'}}>
                           {place.image_url ? (
-                            <img src={place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`} alt={place.name} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                            <img src={place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`} alt={place.name} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                           ) : (
                             <i className="bi bi-geo-alt-fill" style={{fontSize: 36, color: '#fff'}}></i>
                           )}
@@ -1113,7 +1115,7 @@ function HomePage() {
                                 <Link to={`/articles/${a.article_id}`} className="text-decoration-none">
                                   {a.image_url && (
                             <img
-                                      src={a.image_url.startsWith("http") ? a.image_url : `http://localhost:3000${a.image_url}`}
+                                      src={a.image_url.startsWith("http") ? a.image_url : `${BASE_URL}${a.image_url}`}
                               alt="Ảnh"
                               className="card-img-top luxury-img-top"
                                       style={{ height: 220, objectFit: "cover"}}

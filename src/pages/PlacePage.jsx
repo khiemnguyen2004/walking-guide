@@ -6,6 +6,8 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../css/HomePage.css";
 import "../css/luxury-home.css";
+import axiosClient from '../api/axiosClient';
+const BASE_URL = "https://walkingguide.onrender.com";
 
 function PlacePage() {
   const { t } = useTranslation();
@@ -17,7 +19,7 @@ function PlacePage() {
     const fetchPlaces = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:3000/api/places");
+        const res = await axiosClient.get("/places");
         // Sort places by updated_at descending (newest first)
         const sortedPlaces = res.data.sort((a, b) => 
           new Date(b.updated_at || 0) - new Date(a.updated_at || 0)
@@ -95,7 +97,7 @@ function PlacePage() {
                       src={place.image_url 
                         ? (place.image_url.startsWith('http') 
                             ? place.image_url 
-                            : `http://localhost:3000${place.image_url}`)
+                            : `${BASE_URL}${place.image_url}`)
                         : "/default-place.jpg"}
                       alt={place.name}
                       className="card-img-top luxury-img-top"

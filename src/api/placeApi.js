@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_BASE = "http://localhost:3000/api/places";
+const API_BASE = "https://walkingguide.onrender.com/api/places";
 
 const placeApi = {
   getAll: () => axios.get(API_BASE),

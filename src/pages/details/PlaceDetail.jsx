@@ -12,6 +12,8 @@ import RatingStars from '../../components/RatingStars';
 import CommentSection from '../../components/CommentSection';
 import hotelIconSvg from '../../assets/hotel-marker.svg';
 import restaurantIconSvg from '../../assets/restaurant-marker.svg';
+import axiosClient from '../../api/axiosClient';
+const BASE_URL = "https://walkingguide.onrender.com";
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -26,7 +28,7 @@ const createCustomIcon = (place) => {
   const iconSize = 40;
   const iconAnchor = iconSize / 2;
   if (place.image_url) {
-    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `http://localhost:3000${place.image_url}`;
+    const imageUrl = place.image_url.startsWith('http') ? place.image_url : `${BASE_URL}${place.image_url}`;
     return new L.DivIcon({
       className: 'custom-marker',
       html: `
@@ -128,11 +130,11 @@ const PlaceDetail = () => {
     const fetchData = async () => {
       try {
         // Fetch place details
-        const placeResponse = await fetch(`http://localhost:3000/api/places/${id}`);
-        if (!placeResponse.ok) {
+        const placeResponse = await axiosClient.get(`/places/${id}`);
+        if (placeResponse.status !== 200) {
           throw new Error('Không tìm thấy địa điểm');
         }
-        const placeData = await placeResponse.json();
+        const placeData = placeResponse.data;
         setPlace(placeData);
         setLoading(false);
       } catch (err) {
@@ -142,11 +144,11 @@ const PlaceDetail = () => {
     };
     fetchData();
     // Fetch all places for map markers
-    axios.get('http://localhost:3000/api/places').then(res => setAllPlaces(res.data)).catch(() => setAllPlaces([]));
+    axiosClient.get('/places').then(res => setAllPlaces(res.data)).catch(() => setAllPlaces([]));
     // Fetch hotels and restaurants from backend
     const fetchHotels = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/hotels');
+        const res = await axiosClient.get('/hotels');
         setHotels(res.data.data || res.data);
       } catch (error) {
         setHotels([]);
@@ -154,7 +156,7 @@ const PlaceDetail = () => {
     };
     const fetchRestaurants = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/restaurants');
+        const res = await axiosClient.get('/restaurants');
         setRestaurants(res.data.data || res.data);
       } catch (error) {
         setRestaurants([]);
@@ -169,21 +171,21 @@ const PlaceDetail = () => {
     // 1. Fetch all tours
     const fetchNearestRoute = async () => {
       try {
-        const toursRes = await axios.get('http://localhost:3000/api/tours');
+        const toursRes = await axiosClient.get('/tours');
         const tours = toursRes.data;
         let bestTour = null;
         let bestSteps = [];
         let minDistance = Infinity;
         // 2. For each tour, fetch its steps
         for (const tour of tours) {
-          const stepsRes = await axios.get(`http://localhost:3000/api/tour-steps/by-tour/${tour.id}`);
+          const stepsRes = await axiosClient.get(`/tour-steps/by-tour/${tour.id}`);
           const steps = stepsRes.data;
           // 3. Check if this tour includes the current place
           const hasCurrentPlace = steps.some(s => s.place_id === place.id);
           if (hasCurrentPlace && steps.length > 0) {
             // 4. Calculate distance from current place to first step
             const firstStep = steps[0];
-            const firstPlaceRes = await axios.get(`http://localhost:3000/api/places/${firstStep.place_id}`);
+            const firstPlaceRes = await axiosClient.get(`/places/${firstStep.place_id}`);
             const firstPlace = firstPlaceRes.data;
             const dist = Math.sqrt(
               Math.pow(place.latitude - firstPlace.latitude, 2) +
@@ -199,7 +201,7 @@ const PlaceDetail = () => {
         if (bestSteps.length > 0) {
           // 5. Fetch all places for the steps
           const places = await Promise.all(
-            bestSteps.map(s => axios.get(`http://localhost:3000/api/places/${s.place_id}`).then(r => r.data))
+            bestSteps.map(s => axiosClient.get(`/places/${s.place_id}`).then(r => r.data))
           );
           setRouteSteps(bestSteps);
           setRoutePlaces(places);
@@ -534,7 +536,7 @@ const PlaceDetail = () => {
                         {place.image_url && (
                           <div className="position-relative" style={{ height: '250px' }}>
                             <img
-                              src={place.image_url.startsWith("http") ? place.image_url : `http://localhost:3000${place.image_url}`}
+                              src={place.image_url.startsWith("http") ? place.image_url : `${BASE_URL}${place.image_url}`}
                               alt={place.name}
                               className="w-100 h-100"
                               style={{ objectFit: 'cover' }}
