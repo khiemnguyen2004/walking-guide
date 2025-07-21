@@ -90,7 +90,7 @@ function Header() {
         <div className="container d-flex align-items-center justify-content-between header-content-mobile">
           <div className="d-flex align-items-center">
             <Link to ="/">
-              <img src="/walking-guide/banner.png" alt="Walking Guide Banner" className="header-logo-mobile" style={{ height: isMobile ? 56 : 180, width: 'auto', objectFit: 'contain', display: 'block' }} />
+              <img src="/banner.png" alt="Walking Guide Banner" className="header-logo-mobile" style={{ height: isMobile ? 56 : 180, width: 'auto', objectFit: 'contain', display: 'block' }} />
             </Link>
           </div>
           {/* Hamburger menu for mobile */}
