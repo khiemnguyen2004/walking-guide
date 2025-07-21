@@ -9,7 +9,7 @@ function AdminHeader() {
         <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center">
             <Link to ="/">
-              <img src="/walking-guide/src/images/banner.png" alt="Walking Guide Banner" style={{ height: 180, marginRight: 28, borderRadius: 12 }} />
+              <img src="/walking-guide/banner.png" alt="Walking Guide Banner" style={{ height: 180, marginRight: 28, borderRadius: 12 }} />
             </Link>
           </div>
           
