@@ -138,7 +138,7 @@ function ToursAdmin() {
         day: selectedSteps[placeId]?.day || 1,
         stay_duration: Number(selectedSteps[placeId]?.stay_duration) || 60,
       }));
-      await axios.post("http://localhost:3000/api/tours", {
+      await axios.post("https://walkingguide.onrender.com/api/tours", {
         name,
         description,
         image_url: imageUrl,
@@ -194,7 +194,7 @@ function ToursAdmin() {
         day: selectedSteps[placeId]?.day || 1,
         stay_duration: Number(selectedSteps[placeId]?.stay_duration) || 60,
       }));
-      await axios.put(`http://localhost:3000/api/tours/${editId}`, {
+      await axios.put(`https://walkingguide.onrender.com/api/tours/${editId}`, {
         name,
         description,
         image_url: imageUrl,
@@ -223,7 +223,7 @@ function ToursAdmin() {
     if (!tourToDelete) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/tours/${tourToDelete}`);
+      await axios.delete(`https://walkingguide.onrender.com/api/tours/${tourToDelete}`);
       fetchTours();
       setShowDeleteModal(false);
       setTourToDelete(null);
@@ -241,12 +241,12 @@ function ToursAdmin() {
   };
 
   const handleApprove = async (id) => {
-    await axios.post(`http://localhost:3000/api/tours/${id}/approve`);
+    await axios.post(`https://walkingguide.onrender.com/api/tours/${id}/approve`);
     fetchPendingTours();
     fetchTours();
   };
   const handleReject = async (id) => {
-    await axios.post(`http://localhost:3000/api/tours/${id}/reject`);
+    await axios.post(`https://walkingguide.onrender.com/api/tours/${id}/reject`);
     fetchPendingTours();
     fetchTours();
   };
@@ -309,7 +309,7 @@ function ToursAdmin() {
                       {imagePreview && (
                         <div className="mt-2">
                           <img 
-                            src={imagePreview.startsWith('data:') ? imagePreview : `http://localhost:3000${imagePreview}`} 
+                            src={imagePreview.startsWith('data:') ? imagePreview : `https://walkingguide.onrender.com${imagePreview}`} 
                             alt="Xem trước" 
                             style={{ 
                               maxWidth: '200px', 
@@ -526,7 +526,7 @@ function ToursAdmin() {
                           <td>
                             {t.image_url ? (
                               <img 
-                                src={`http://localhost:3000${t.image_url}`} 
+                                src={`https://walkingguide.onrender.com${t.image_url}`} 
                                 alt={t.name}
                                 style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: '4px' }}
                               />

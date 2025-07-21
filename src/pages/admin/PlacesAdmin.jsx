@@ -40,7 +40,7 @@ function PlacesAdmin() {
   }, []);
 
   const fetchPlaces = async () => {
-    const res = await axios.get("http://localhost:3000/api/places");
+    const res = await axios.get("https://walkingguide.onrender.com/api/places");
     setPlaces(res.data);
   };
 
@@ -105,7 +105,7 @@ function PlacesAdmin() {
     setIsLoadingLocation(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/geocoding/coordinates?q=${encodeURIComponent(address)}&limit=1`
+        `https://walkingguide.onrender.com/api/geocoding/coordinates?q=${encodeURIComponent(address)}&limit=1`
       );
       
       if (response.data.success && response.data.data) {
@@ -136,14 +136,14 @@ function PlacesAdmin() {
       if (imageFile) {
         const formData = new FormData();
         formData.append("file", imageFile);
-        const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+        const uploadRes = await axios.post("https://walkingguide.onrender.com/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         uploadedImageUrl = uploadRes.data.url;
       }
       
       // Create the place
-      const placeRes = await axios.post("http://localhost:3000/api/places", {
+      const placeRes = await axios.post("https://walkingguide.onrender.com/api/places", {
         name,
         description,
         latitude: coordinates.latitude,
@@ -202,14 +202,14 @@ function PlacesAdmin() {
       if (imageFile) {
         const formData = new FormData();
         formData.append("file", imageFile);
-        const uploadRes = await axios.post("http://localhost:3000/api/upload", formData, {
+        const uploadRes = await axios.post("https://walkingguide.onrender.com/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         uploadedImageUrl = uploadRes.data.url;
       }
       
       // Update the place
-      await axios.put(`http://localhost:3000/api/places/${editId}`, {
+      await axios.put(`https://walkingguide.onrender.com/api/places/${editId}`, {
         name,
         description,
         latitude: coordinates.latitude,
@@ -253,7 +253,7 @@ function PlacesAdmin() {
     if (!placeToDelete) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/places/${placeToDelete}`);
+      await axios.delete(`https://walkingguide.onrender.com/api/places/${placeToDelete}`);
       fetchPlaces();
       setShowDeleteModal(false);
       setPlaceToDelete(null);

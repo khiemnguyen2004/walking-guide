@@ -66,7 +66,7 @@ function RestaurantsAdmin() {
 
   const fetchRestaurants = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/restaurants");
+      const res = await axios.get("https://walkingguide.onrender.com/api/restaurants");
       setRestaurants(res.data.data || res.data);
     } catch (error) {
       console.error("Error fetching restaurants:", error);
@@ -80,7 +80,7 @@ function RestaurantsAdmin() {
       return imageUrl; // Already absolute URL
     }
     // Prepend backend URL for relative paths
-    return `http://localhost:3000${imageUrl}`;
+    return `https://walkingguide.onrender.com${imageUrl}`;
   };
 
   // Address autocomplete with debouncing
@@ -99,7 +99,7 @@ function RestaurantsAdmin() {
       }
 
       const response = await axios.get(
-        `http://localhost:3000/api/geocoding/search?q=${encodeURIComponent(searchQuery)}&limit=5&addressdetails=1`
+        `https://walkingguide.onrender.com/api/geocoding/search?q=${encodeURIComponent(searchQuery)}&limit=5&addressdetails=1`
       );
       setAddressSuggestions(response.data);
       setShowSuggestions(true);
@@ -283,7 +283,7 @@ function RestaurantsAdmin() {
     setIsLoadingLocation(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/geocoding/coordinates?q=${encodeURIComponent(address)}&limit=1`
+        `https://walkingguide.onrender.com/api/geocoding/coordinates?q=${encodeURIComponent(address)}&limit=1`
       );
       
       if (response.data.success && response.data.data) {
@@ -315,7 +315,7 @@ function RestaurantsAdmin() {
       for (let i = 0; i < imageFiles.length; i++) {
         const formData = new FormData();
         formData.append("file", imageFiles[i]);
-        const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
+        const uploadRes = await axios.post(`https://walkingguide.onrender.com/api/upload`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         uploadedImages.push({
@@ -327,7 +327,7 @@ function RestaurantsAdmin() {
       }
 
       // Create the restaurant
-      const restaurantRes = await axios.post("http://localhost:3000/api/restaurants", {
+      const restaurantRes = await axios.post("https://walkingguide.onrender.com/api/restaurants", {
         name,
         description,
         latitude: coordinates.latitude,
@@ -426,7 +426,7 @@ function RestaurantsAdmin() {
           console.log('Uploading image:', image.file.name);
           const formData = new FormData();
           formData.append("file", image.file);
-          const uploadRes = await axios.post(`${BASE_URL}/api/upload`, formData, {
+          const uploadRes = await axios.post(`https://walkingguide.onrender.com/api/upload`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
           uploadedImages.push({
@@ -505,7 +505,7 @@ function RestaurantsAdmin() {
         }
       }
 
-      const response = await axios.put(`http://localhost:3000/api/restaurants/${editId}`, updateData);
+      const response = await axios.put(`https://walkingguide.onrender.com/api/restaurants/${editId}`, updateData);
       console.log('Update response:', response.data);
 
       fetchRestaurants();
@@ -527,7 +527,7 @@ function RestaurantsAdmin() {
     if (!restaurantToDelete) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/restaurants/${restaurantToDelete}`);
+      await axios.delete(`https://walkingguide.onrender.com/api/restaurants/${restaurantToDelete}`);
       fetchRestaurants();
       setShowDeleteModal(false);
       setRestaurantToDelete(null);
@@ -577,7 +577,7 @@ function RestaurantsAdmin() {
     setShowMenuModal(true);
     setMenuLoading(true);
     try {
-      const res = await axios.get(`http://localhost:3000/api/restaurants/${restaurant.id}/menus`);
+      const res = await axios.get(`https://walkingguide.onrender.com/api/restaurants/${restaurant.id}/menus`);
       const menuList = res.data.data || [];
       setMenus(menuList);
       if (menuList.length > 0) {
@@ -599,7 +599,7 @@ function RestaurantsAdmin() {
   const fetchMenuItems = async (menuId) => {
     setMenuItemLoading(true);
     try {
-      const res = await axios.get(`http://localhost:3000/api/restaurants/menus/${menuId}/items`);
+      const res = await axios.get(`https://walkingguide.onrender.com/api/restaurants/menus/${menuId}/items`);
       setMenuItems(res.data.data || []);
     } catch {
       setMenuItems([]);
@@ -613,8 +613,8 @@ function RestaurantsAdmin() {
       return;
     }
     try {
-      await axios.delete(`http://localhost:3000/api/restaurants/menus/${menuId}`);
-      const res = await axios.get(`http://localhost:3000/api/restaurants/${selectedRestaurant.id}/menus`);
+      await axios.delete(`https://walkingguide.onrender.com/api/restaurants/menus/${menuId}`);
+      const res = await axios.get(`https://walkingguide.onrender.com/api/restaurants/${selectedRestaurant.id}/menus`);
       setMenus(res.data.data || []);
       setShowMenuForm(false);
       setMenuEdit(null);
@@ -628,20 +628,20 @@ function RestaurantsAdmin() {
     try {
       if (menuEdit.id) {
         // Update existing menu
-        await axios.put(`http://localhost:3000/api/restaurants/menus/${menuEdit.id}`, {
+        await axios.put(`https://walkingguide.onrender.com/api/restaurants/menus/${menuEdit.id}`, {
           name: menuEdit.name,
           description: menuEdit.description,
         });
       } else {
         // Create new menu
-        await axios.post(`http://localhost:3000/api/restaurants/menus`, {
+        await axios.post(`https://walkingguide.onrender.com/api/restaurants/menus`, {
           restaurant_id: selectedRestaurant.id,
           name: menuEdit.name,
           description: menuEdit.description,
         });
       }
       // Refresh menus
-      const res = await axios.get(`http://localhost:3000/api/restaurants/${selectedRestaurant.id}/menus`);
+      const res = await axios.get(`https://walkingguide.onrender.com/api/restaurants/${selectedRestaurant.id}/menus`);
       setMenus(res.data.data || []);
       setShowMenuForm(false);
       setMenuEdit(null);
@@ -655,8 +655,8 @@ function RestaurantsAdmin() {
       return;
     }
     try {
-      await axios.delete(`http://localhost:3000/api/restaurants/menu-items/${itemId}`);
-      const res = await axios.get(`http://localhost:3000/api/restaurants/menus/${menuEdit.id}/items`); // Assuming menuEdit.id is the current menu's ID
+      await axios.delete(`https://walkingguide.onrender.com/api/restaurants/menu-items/${itemId}`);
+      const res = await axios.get(`https://walkingguide.onrender.com/api/restaurants/menus/${menuEdit.id}/items`); // Assuming menuEdit.id is the current menu's ID
       setMenuItems(res.data.data || []);
       setMenuItemEdit(null);
     } catch (err) {
@@ -679,7 +679,7 @@ function RestaurantsAdmin() {
       }
       if (menuItemEdit.id) {
         // Update existing menu item
-        await axios.put(`http://localhost:3000/api/restaurants/menu-items/${menuItemEdit.id}`, {
+        await axios.put(`https://walkingguide.onrender.com/api/restaurants/menu-items/${menuItemEdit.id}`, {
           name: menuItemEdit.name,
           description: menuItemEdit.description,
           price: menuItemEdit.price,
@@ -687,7 +687,7 @@ function RestaurantsAdmin() {
         });
       } else {
         // Create new menu item
-        await axios.post(`http://localhost:3000/api/restaurants/menu-items`, {
+        await axios.post(`https://walkingguide.onrender.com/api/restaurants/menu-items`, {
           menu_id: selectedMenu.id,
           name: menuItemEdit.name,
           description: menuItemEdit.description,
@@ -695,7 +695,7 @@ function RestaurantsAdmin() {
           image_url,
         });
       }
-      const res = await axios.get(`http://localhost:3000/api/restaurants/menus/${selectedMenu.id}/items`);
+      const res = await axios.get(`https://walkingguide.onrender.com/api/restaurants/menus/${selectedMenu.id}/items`);
       setMenuItems(res.data.data || []);
       setMenuItemEdit(null);
       setMenuItemImage(null);
@@ -1449,7 +1449,7 @@ function RestaurantsAdmin() {
                         <p className="mb-0 text-muted">{item.description}</p>
                         <p className="mb-0 text-muted">Giá: {item.price ? item.price.toLocaleString('vi-VN') + ' VND' : '---'}</p>
                         {item.image_url && (
-                          <img src={item.image_url.startsWith('http') ? item.image_url : `http://localhost:3000${item.image_url}`} alt={item.name} style={{ maxWidth: 80, borderRadius: 8, marginTop: 4 }} />
+                          <img src={item.image_url.startsWith('http') ? item.image_url : `https://walkingguide.onrender.com${item.image_url}`} alt={item.name} style={{ maxWidth: 80, borderRadius: 8, marginTop: 4 }} />
                         )}
                       </div>
                       <div className="d-flex gap-2">
@@ -1559,7 +1559,7 @@ function RestaurantsAdmin() {
               <img src={menuItemImagePreview} alt="Preview" style={{ maxWidth: 120, marginTop: 8, borderRadius: 8 }} />
             )}
             {!menuItemImagePreview && menuItemEdit?.image_url && (
-              <img src={menuItemEdit.image_url.startsWith('http') ? menuItemEdit.image_url : `http://localhost:3000${menuItemEdit.image_url}`} alt="Preview" style={{ maxWidth: 120, marginTop: 8, borderRadius: 8 }} />
+              <img src={menuItemEdit.image_url.startsWith('http') ? menuItemEdit.image_url : `https://walkingguide.onrender.com${menuItemEdit.image_url}`} alt="Preview" style={{ maxWidth: 120, marginTop: 8, borderRadius: 8 }} />
             )}
           </Form.Group>
         </Modal.Body>

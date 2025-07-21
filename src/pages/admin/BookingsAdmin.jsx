@@ -31,9 +31,9 @@ function BookingsAdmin() {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      let url = "http://localhost:3000/api/bookings/admin/all";
+      let url = "https://walkingguide.onrender.com/api/bookings/admin/all";
       if (selectedStatus !== "all") {
-        url = `http://localhost:3000/api/bookings/admin/status/${selectedStatus}`;
+        url = `https://walkingguide.onrender.com/api/bookings/admin/status/${selectedStatus}`;
       }
       
       const response = await axios.get(url);
@@ -48,7 +48,7 @@ function BookingsAdmin() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/bookings/admin/stats");
+      const response = await axios.get("https://walkingguide.onrender.com/api/bookings/admin/stats");
       setStats(response.data.data || {});
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -72,15 +72,15 @@ function BookingsAdmin() {
 
       switch (actionType) {
         case "approve":
-          url = `http://localhost:3000/api/bookings/admin/${selectedBooking.id}/approve`;
+          url = `https://walkingguide.onrender.com/api/bookings/admin/${selectedBooking.id}/approve`;
           data = { admin_notes: adminNotes };
           break;
         case "reject":
-          url = `http://localhost:3000/api/bookings/admin/${selectedBooking.id}/reject`;
+          url = `https://walkingguide.onrender.com/api/bookings/admin/${selectedBooking.id}/reject`;
           data = { admin_notes: adminNotes };
           break;
         case "cancel":
-          url = `http://localhost:3000/api/bookings/admin/${selectedBooking.id}/cancel`;
+          url = `https://walkingguide.onrender.com/api/bookings/admin/${selectedBooking.id}/cancel`;
           data = { admin_notes: adminNotes };
           break;
         default:

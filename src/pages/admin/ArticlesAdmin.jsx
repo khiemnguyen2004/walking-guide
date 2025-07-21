@@ -33,14 +33,14 @@ function ArticlesAdmin() {
   }, []);
 
   const fetchArticles = async () => {
-    const res = await axios.get("http://localhost:3000/api/articles");
+    const res = await axios.get("https://walkingguide.onrender.com/api/articles");
     setArticles(res.data);
   };
 
   const fetchReports = async () => {
     try {
       console.log('Admin fetching reports with token:', user?.token);
-      const res = await axios.get('http://localhost:3000/api/article-reports', {
+      const res = await axios.get('https://walkingguide.onrender.com/api/article-reports', {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       setReports(res.data);
@@ -115,7 +115,7 @@ function ArticlesAdmin() {
     if (!articleToDelete) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/articles/${articleToDelete}`);
+      await axios.delete(`https://walkingguide.onrender.com/api/articles/${articleToDelete}`);
       fetchArticles();
       setShowDeleteModal(false);
       setArticleToDelete(null);
@@ -132,7 +132,7 @@ function ArticlesAdmin() {
   const handleReportStatus = async (reportId, status) => {
     try {
       console.log('Admin updating report with token:', user?.token, 'role:', user?.role);
-      await axios.patch(`http://localhost:3000/api/article-reports/${reportId}`, { status }, {
+      await axios.patch(`https://walkingguide.onrender.com/api/article-reports/${reportId}`, { status }, {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       setReportActionStatus('success');
@@ -145,7 +145,7 @@ function ArticlesAdmin() {
   const handleDeleteReportedArticle = async (articleId) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa bài viết này? Hành động này không thể hoàn tác.')) return;
     try {
-      await axios.delete(`http://localhost:3000/api/articles/${articleId}`, {
+      await axios.delete(`https://walkingguide.onrender.com/api/articles/${articleId}`, {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       fetchArticles();
@@ -169,7 +169,7 @@ function ArticlesAdmin() {
       // Find the article being warned (from the current report context)
       const report = reports.find(r => articles.find(a => a.article_id === r.article_id && a.admin_id === warnUserId));
       const articleId = report ? report.article_id : null;
-      await axios.post(`http://localhost:3000/api/notifications`, {
+      await axios.post(`https://walkingguide.onrender.com/api/notifications`, {
         user_id: warnUserId,
         content: warnMessage || "Bài viết của bạn đã bị báo cáo. Vui lòng kiểm tra lại nội dung.",
         type: "warning",
@@ -244,7 +244,7 @@ function ArticlesAdmin() {
                   {editImageUrl && !imageFile && (
                     <div className="mt-2">
                       <img 
-                        src={editImageUrl.startsWith('http') ? editImageUrl : `http://localhost:3000${editImageUrl}`}
+                        src={editImageUrl.startsWith('http') ? editImageUrl : `https://walkingguide.onrender.com${editImageUrl}`}
                         alt="Ảnh hiện tại" 
                         style={{ 
                           maxWidth: '200px', 

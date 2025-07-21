@@ -63,7 +63,7 @@ function RegisterForm({ onSuccess, onSwitch }) {
     setResendMessage("");
     setResendError("");
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/resend-verification", { email: registeredEmail });
+      const res = await axios.post("https://walkingguide.onrender.com/api/auth/resend-verification", { email: registeredEmail });
       setResendMessage(res.data.message || "Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn.");
     } catch (err) {
       setResendError(err.response?.data?.message || "Lỗi gửi lại email xác thực");

@@ -27,9 +27,9 @@ function AdminDashboard() {
         const BASE_URL = "https://walkingguide.onrender.com";
         const [usersRes, placesRes, toursRes, articlesRes] = await Promise.all([
           axios.get(`${BASE_URL}/api/users`),
-          axios.get("http://localhost:3000/api/places"),
-          axios.get("http://localhost:3000/api/tours"),
-          axios.get("http://localhost:3000/api/articles"),
+          axios.get(`${BASE_URL}/api/places`),
+          axios.get(`${BASE_URL}/api/tours`),
+          axios.get(`${BASE_URL}/api/articles`),
         ]);
 
         setStats({

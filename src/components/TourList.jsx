@@ -27,7 +27,7 @@ function TourList() {
   }, []);
 
   const fetchMyTours = async () => {
-    const res = await axios.get(`http://localhost:3000/api/tours/user/${user.id}`);
+    const res = await axios.get(`https://walkingguide.onrender.com/api/tours/user/${user.id}`);
     setMyTours(res.data);
     // Fetch steps for each tour
     for (const tour of res.data) {

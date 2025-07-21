@@ -164,7 +164,7 @@ const AutoPlanner = ({ noLayout }) => {
         interests: requestData.interests
       });
 
-      const res = await axios.post("http://localhost:3000/api/ai/generate-tour", requestData);
+      const res = await axios.post("https://walkingguide.onrender.com/api/ai/generate-tour", requestData);
       setTourData(res.data);
     } catch (err) {
       console.error(err);
