@@ -6,6 +6,8 @@ import "../css/index.css";
 import hotelIconSvg from '../assets/hotel-marker.svg';
 import restaurantIconSvg from '../assets/restaurant-marker.svg';
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 const defaultIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   iconSize: [25, 41],
