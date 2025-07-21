@@ -12,7 +12,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const token = searchParams.get('token');
     if (!token) {
-      setStatus('Invalid verification link.');
+      setStatus('Invalid verification link!');
       setLoading(false);
       return;
     }
