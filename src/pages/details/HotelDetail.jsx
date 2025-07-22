@@ -24,7 +24,6 @@ const HotelDetail = () => {
   const [bookingCheckOut, setBookingCheckOut] = useState("");
   const [bookingStatus, setBookingStatus] = useState(null);
   const [selectedRoomType, setSelectedRoomType] = useState('');
-  const [roomQuantity, setRoomQuantity] = useState(1);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -48,21 +47,6 @@ const HotelDetail = () => {
     setModalImg(imgUrl);
     setShowModal(true);
   };
-
-  const getNights = () => {
-    if (!bookingCheckIn || !bookingCheckOut) return 0;
-    const start = new Date(bookingCheckIn);
-    const end = new Date(bookingCheckOut);
-    const diff = (end - start) / (1000 * 60 * 60 * 24);
-    return diff > 0 ? diff : 0;
-  };
-  const selectedRoomObj = Array.isArray(hotel.room_types) && hotel.room_types.length > 0
-    ? hotel.room_types.find(rt => (typeof rt === 'object' ? rt.type : rt) === selectedRoomType)
-    : null;
-  const nights = getNights();
-  const totalPrice = selectedRoomObj && selectedRoomObj.price && nights && roomQuantity
-    ? selectedRoomObj.price * nights * roomQuantity
-    : 0;
 
   return (
     <div className="luxury-home-container">
@@ -149,47 +133,21 @@ const HotelDetail = () => {
               <Form.Label>Ngày trả phòng</Form.Label>
               <Form.Control type="date" value={bookingCheckOut} onChange={e => setBookingCheckOut(e.target.value)} />
             </Form.Group>
-            {Array.isArray(hotel.room_types) && hotel.room_types.length > 0 && (
-              <Form.Group className="mb-3">
-                <Form.Label>Loại phòng</Form.Label>
-                <Form.Select value={selectedRoomType} onChange={e => setSelectedRoomType(e.target.value)}>
-                  <option value="">Chọn loại phòng</option>
-                  {hotel.room_types.map((type, idx) => (
-                    typeof type === 'object' ? (
-                      <option key={type.type || idx} value={type.type}>{type.type}</option>
-                    ) : (
-                      <option key={type} value={type}>{type}</option>
-                    )
-                  ))}
-                </Form.Select>
-                {/* Show details for selected room type */}
-                {selectedRoomType && selectedRoomObj && (
-                  <div className="mt-2 p-2 border rounded bg-light">
-                    <div className="mb-1 text-success">Giá mỗi đêm: <b>{formatVND(selectedRoomObj.price)}</b></div>
-                    {selectedRoomObj.description && (
-                      <div className="mb-1 text-muted">{selectedRoomObj.description}</div>
-                    )}
-                    {selectedRoomObj.max_guests && (
-                      <div className="mb-1 text-info">Số khách tối đa: <b>{selectedRoomObj.max_guests}</b></div>
-                    )}
-                  </div>
-                )}
-              </Form.Group>
-            )}
-            {selectedRoomType && selectedRoomObj && (
-              <Form.Group className="mb-3">
-                <Form.Label>Số lượng phòng</Form.Label>
-                <Form.Control type="number" min={1} max={10} value={roomQuantity} onChange={e => setRoomQuantity(Math.max(1, Math.min(10, Number(e.target.value))))} />
-              </Form.Group>
-            )}
-            {selectedRoomType && selectedRoomObj && nights > 0 && (
-              <div className="alert alert-info mt-2">
-                <div>Thời gian lưu trú: <b>{nights}</b> đêm</div>
-                <div>Giá mỗi đêm: <b>{formatVND(selectedRoomObj.price)}</b></div>
-                <div>Số phòng: <b>{roomQuantity}</b></div>
-                <div className="mt-1">Tổng giá: <b style={{color:'#1a5bb8'}}>{formatVND(totalPrice)}</b></div>
-              </div>
-            )}
+            {bookingHotel && bookingHotel.room_types && (
+                <Form.Group className="mb-3">
+                  <Form.Label>Loại phòng</Form.Label>
+                  <Form.Select value={selectedRoomType} onChange={e => setSelectedRoomType(e.target.value)}>
+                    <option value="">Chọn loại phòng</option>
+                    {Array.isArray(bookingHotel.room_types)
+                      ? bookingHotel.room_types.map((type, idx) => (
+                          <option key={idx} value={type}>{type}</option>
+                        ))
+                      : (JSON.parse(bookingHotel.room_types || '[]')).map((type, idx) => (
+                          <option key={idx} value={type}>{type}</option>
+                        ))}
+                  </Form.Select>
+                </Form.Group>
+              )}
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -205,13 +163,12 @@ const HotelDetail = () => {
                 check_in: bookingCheckIn,
                 check_out: bookingCheckOut,
                 room_type: selectedRoomType,
-                quantity: roomQuantity,
               });
               setBookingStatus('success');
             } catch {
               setBookingStatus('error');
             }
-          }} disabled={!bookingCheckIn || !bookingCheckOut || (Array.isArray(hotel.room_types) && hotel.room_types.length > 0 && (!selectedRoomType || !roomQuantity || nights === 0))}>
+          }} disabled={!bookingCheckIn || !bookingCheckOut || (Array.isArray(hotel.room_types) && hotel.room_types.length > 0 && !selectedRoomType)}>
             Xác nhận đặt phòng
           </Button>
         </Modal.Footer>
