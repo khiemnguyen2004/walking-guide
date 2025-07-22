@@ -52,6 +52,7 @@ function ManualPlanner({ noLayout }) {
   const [bookingCheckOut, setBookingCheckOut] = useState("");
   const [bookingStatus, setBookingStatus] = useState(null);
   const [selectedRoomType, setSelectedRoomType] = useState("");
+  const [startFrom, setStartFrom] = useState("");
 
   useEffect(() => {
     axiosClient.get("/places").then((res) => {
@@ -73,6 +74,20 @@ function ManualPlanner({ noLayout }) {
       setHotelCheckOut(end_time);
     }
   }, [start_time, end_time]);
+
+  useEffect(() => {
+    if (!start_time) {
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      setStart_time(todayStr);
+    }
+    if (!end_time) {
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      setEnd_time(todayStr);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   // Helper to get proper image URL
   const getImageUrl = (imageUrl) => {
@@ -357,22 +372,25 @@ function ManualPlanner({ noLayout }) {
       setShowAlert(true);
       return;
     }
-    // Get first place info
-    const firstStep = steps[0];
-    const firstPlace = getSelectedPlace(firstStep.place_id);
-    const autoTourName = firstPlace ? firstPlace.name : tourName;
-    const autoImageUrl = firstPlace && firstPlace.image_url ? firstPlace.image_url : '';
     setIsSubmitting(true);
     try {
+      // Find the first place with an image for the tour cover
+      const firstStepWithImage = steps.find(s => s.place_id && places.find(p => p.id == s.place_id)?.image_url);
+      const imageUrl = firstStepWithImage ? (
+        places.find(p => p.id == firstStepWithImage.place_id).image_url.startsWith('http')
+          ? places.find(p => p.id == firstStepWithImage.place_id).image_url
+          : `${BASE_URL}${places.find(p => p.id == firstStepWithImage.place_id).image_url}`
+      ) : '';
       const res = await axiosClient.post(`${BASE_URL}/api/tours`, {
-        name: autoTourName,
+        name: tourName, // Always use the tour name input
         description,
         user_id: userId,
         total_cost: parseFloat(totalCost) || 0,
         start_time: start_time,
         end_time: end_time,
         steps,
-        image_url: autoImageUrl,
+        image_url: imageUrl, // Use the first place image if available
+        start_from: startFrom,
       });
       // Show modal with summary and buttons
       setCreatedTour(res.data.tour || res.data); // support both {tour, steps} and just tour
@@ -439,11 +457,21 @@ function ManualPlanner({ noLayout }) {
       <div className="luxury-card mb-4">
         <div className="luxury-card-body">
           <div className="row g-3">
+          <div className="col-12">
+              <label className="form-label fw-bold">Tên chuyến đi <span className="text-danger">*</span></label>
+              <input
+                type="text"
+                className="form-control"
+                value={tourName}
+                onChange={e => setTourName(e.target.value)}
+                placeholder="Ví dụ: Chuyến nghỉ hè ở Đà Lạt"
+              />
+            </div>
             <div className="col-md-6">
               <label className="form-label fw-bold">Khởi hành từ <span className="text-danger">*</span></label>
               <LocationAutocomplete
-                value={tourName}
-                onChange={setTourName}
+                value={startFrom}
+                onChange={setStartFrom}
                 placeholder="Nhập điểm khởi hành"
               />
             </div>

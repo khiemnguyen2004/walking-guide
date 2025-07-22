@@ -40,11 +40,26 @@ const AutoPlanner = ({ noLayout }) => {
     opening_hours: "",
     service: ""
   });
+  const [startFrom, setStartFrom] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("https://walkingguide.onrender.com/api/tags").then(res => setTags(res.data));
+  }, []);
+
+  useEffect(() => {
+    if (!start_time) {
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      setStart_time(todayStr);
+    }
+    if (!end_time) {
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      setEnd_time(todayStr);
+    }
+    // eslint-disable-next-line
   }, []);
 
   const searchPlacesByCity = async (city) => {
@@ -198,17 +213,15 @@ const AutoPlanner = ({ noLayout }) => {
 
       // Find the first place with an image for the tour cover
       let tourImageUrl = "";
-      if (tourData.steps && tourData.steps.length > 0) {
-        const firstPlaceWithImage = tourData.steps.find(
-          (step) => step.place && step.place.image_url
-        );
-        if (firstPlaceWithImage) {
-          tourImageUrl = firstPlaceWithImage.place.image_url;
-        }
+      const firstStepWithImage = tourData.steps.find(s => s.place && s.place.image_url);
+      if (firstStepWithImage) {
+        tourImageUrl = firstStepWithImage.place.image_url.startsWith('http')
+          ? firstStepWithImage.place.image_url
+          : `${BASE_URL}${firstStepWithImage.place.image_url}`;
       }
-      
+
       const response = await axios.post(`${BASE_URL}/api/tours`, {
-        name: tourName || tourData.tour.name,
+        name: tourName, // Always use the tour name input
         description: tourData.tour.description,
         image_url: tourImageUrl, // set cover image
         user_id: user.id,
@@ -223,7 +236,7 @@ const AutoPlanner = ({ noLayout }) => {
         })),
         start_time: start_time,
         end_time: end_time,
-        start_from: tourName
+        start_from: startFrom,
       });
       
       setCreatedTour(response.data.tour);
@@ -312,12 +325,22 @@ const AutoPlanner = ({ noLayout }) => {
       {/* Tour Configuration */}
       <div className="luxury-card mb-4">
         <div className="luxury-card-body">
-          <div className="row g-3">
+          <div className="row g-3 mb-3">
+            <div className="col-12">
+              <label className="form-label fw-bold">Tên chuyến đi <span className="text-danger">*</span></label>
+              <input
+                type="text"
+                className="form-control"
+                value={tourName}
+                onChange={e => setTourName(e.target.value)}
+                placeholder="Ví dụ: Hành trình Hà Nội - Sapa 4 ngày 3 đêm"
+              />
+            </div>
             <div className="col-md-6">
               <label className="form-label fw-bold">Khởi hành từ</label>
               <LocationAutocomplete
-                value={tourName}
-                onChange={setTourName}
+                value={startFrom}
+                onChange={setStartFrom}
                 placeholder="Nhập điểm khởi hành"
               />
             </div>
@@ -329,6 +352,8 @@ const AutoPlanner = ({ noLayout }) => {
                 placeholder="Chọn thành phố..."
               />
             </div>
+          </div>
+          <div className="row g-3 mb-3">
             <div className="col-md-6">
               <label className="form-label fw-bold">
                 <i className="bi bi-calendar-event me-2 text-primary"></i>

@@ -664,18 +664,27 @@ function MyTours() {
             </Button>
           </div>
           <div className="list-group">
-            {tours.map(tour => (
-              <div key={tour.id} className="list-group-item d-flex align-items-center">
-                <input type="checkbox" className="me-2" checked={selectedTourIds.includes(tour.id)} onChange={() => handleSelectTour(tour.id)} />
-                <div className="flex-grow-1">
-                  <Link to={`/tours/${tour.id}`}>{tour.name}</Link>
+            {tours.map(tour => {
+              // For each tour card (created and booked), use:
+              const steps = tourSteps && tour.id === selected?.id ? tourSteps : (tour.steps || []);
+              const firstStep = steps[0];
+              const firstPlace = firstStep && places[firstStep.place_id] ? places[firstStep.place_id] : null;
+              const cardImg = firstPlace?.image_url
+                ? (firstPlace.image_url.startsWith('http') ? firstPlace.image_url : `${BASE_URL}${firstPlace.image_url}`)
+                : (tour.image_url ? (tour.image_url.startsWith('http') ? tour.image_url : `${BASE_URL}${tour.image_url}`) : null);
+              return (
+                <div key={tour.id} className="list-group-item d-flex align-items-center">
+                  <input type="checkbox" className="me-2" checked={selectedTourIds.includes(tour.id)} onChange={() => handleSelectTour(tour.id)} />
+                  <div className="flex-grow-1">
+                    <Link to={`/tours/${tour.id}`}>{tour.name}</Link>
+                  </div>
+                  <div className="d-flex gap-2">
+                    <button className="btn btn-sm btn-outline-primary" onClick={e => { e.stopPropagation(); setSelected(tour); setShowEditModal(true); }}>Sửa</button>
+                    <button className="btn btn-sm btn-outline-danger" onClick={e => { e.stopPropagation(); showDeleteConfirm('Bạn có chắc muốn xóa tour này?', () => handleDeleteTour(tour.id)); }}>Xóa</button>
+                  </div>
                 </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-sm btn-outline-primary" onClick={e => { e.stopPropagation(); setSelected(tour); setShowEditModal(true); }}>Sửa</button>
-                  <button className="btn btn-sm btn-outline-danger" onClick={e => { e.stopPropagation(); showDeleteConfirm('Bạn có chắc muốn xóa tour này?', () => handleDeleteTour(tour.id)); }}>Xóa</button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         {/* Booked tours section */}
@@ -873,8 +882,6 @@ function MyTours() {
                 const steps = tourSteps && tour.id === selected?.id ? tourSteps : [];
                 const firstStep = steps[0];
                 const firstPlace = firstStep ? places[firstStep.place_id] : null;
-                // Always use first place's name and image if available
-                const cardName = firstPlace?.name || tour.name;
                 const cardImg = firstPlace?.image_url
                   ? (firstPlace.image_url.startsWith('http') ? firstPlace.image_url : `${BASE_URL}${firstPlace.image_url}`)
                   : (tour.image_url ? (tour.image_url.startsWith('http') ? tour.image_url : `${BASE_URL}${tour.image_url}`) : null);
@@ -908,7 +915,7 @@ function MyTours() {
                       {cardImg ? (
                         <img
                           src={cardImg}
-                          alt={cardName}
+                          alt={tour.name}
                           className="card-img-top luxury-img-top"
                           style={{ height: 220, objectFit: "cover", borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
                         />
@@ -919,7 +926,7 @@ function MyTours() {
                         </div>
                       )}
                       <div className="card-body luxury-card-body">
-                        <h3 className="card-title mb-2" style={{ fontWeight: 600 }}>{cardName}</h3>
+                        <h3 className="card-title mb-2" style={{ fontWeight: 600 }}>{tour.name}</h3>
                         <p className="card-text text-muted mb-2 luxury-desc">
                           {tour.description ? `${tour.description.replace(/<[^>]+>/g, '').substring(0, 100)}...` : ''}
                         </p>
