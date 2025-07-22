@@ -86,9 +86,6 @@
   margin: 0 !important;
   padding: 0 !important;
 }
-.modal-backdrop {
-  z-index: 9998 !important;
-}
 body.modal-open .luxury-header,
 body.modal-open .luxury-navbar {
   display: none !important;
