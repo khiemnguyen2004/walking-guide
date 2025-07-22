@@ -76,8 +76,8 @@ function RestaurantsAdmin() {
   // Helper function to get proper image URL
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return null;
-    if (imageUrl.startsWith('http')) {
-      return imageUrl; // Already absolute URL
+    if (imageUrl.startsWith('http') || imageUrl.startsWith('blob:')) {
+      return imageUrl; // Already absolute URL or local preview
     }
     // Prepend backend URL for relative paths
     return `https://walkingguide.onrender.com${imageUrl}`;
@@ -178,12 +178,16 @@ function RestaurantsAdmin() {
   };
 
   const setPrimaryImage = (index) => {
-    const updatedImages = images.map((img, i) => ({
-      ...img,
-      is_primary: i === index
-    }));
-    setImages(updatedImages);
+    setImages(prevImages => {
+      if (index === 0) return prevImages.map((img, i) => ({ ...img, is_primary: i === 0 }));
+      const newImages = [...prevImages];
+      const [selected] = newImages.splice(index, 1);
+      newImages.unshift({ ...selected, is_primary: true });
+      return newImages.map((img, i) => ({ ...img, is_primary: i === 0 }));
+    });
   };
+
+  const moveImageToFirst = setPrimaryImage;
 
   // Drag and drop functionality
   const handleDragStart = (e, index) => {
