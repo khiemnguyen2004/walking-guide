@@ -535,6 +535,16 @@ function HotelsAdmin() {
     return imgs.map((img, i) => ({ ...img, is_primary: i === (found !== -1 ? found : 0) }));
   };
 
+  const moveImageToFirst = (index) => {
+    setImages(prevImages => {
+      if (index === 0) return prevImages.map((img, i) => ({ ...img, is_primary: i === 0 }));
+      const newImages = [...prevImages];
+      const [selected] = newImages.splice(index, 1);
+      newImages.unshift({ ...selected, is_primary: true });
+      return newImages.map((img, i) => ({ ...img, is_primary: i === 0 }));
+    });
+  };
+
   return (
     <div className="admin-layout">
       <AdminHeader />
@@ -961,7 +971,7 @@ function HotelsAdmin() {
                                     className="img-thumbnail"
                                     alt={`Khách sạn ${index + 1}`}
                                     style={{ height: "100px", objectFit: "cover", cursor: 'pointer' }}
-                                    onClick={() => setSelectedImage(image)}
+                                    onClick={() => moveImageToFirst(index)}
                                     onError={(e) => {
                                       e.target.style.display = 'none';
                                     }}
