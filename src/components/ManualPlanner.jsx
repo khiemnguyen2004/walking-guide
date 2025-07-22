@@ -1169,7 +1169,7 @@ function ManualPlanner({ noLayout }) {
         {mainContent}
         {/* Success Modal */}
         {showSuccessModal && createdTour && (
-          <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.4)", zIndex: 2100, position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="planner-modal-overlay" tabIndex="-1">
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
                 <div className="modal-header">
@@ -1181,6 +1181,7 @@ function ManualPlanner({ noLayout }) {
                   <div className="mb-2">
                     <b>Thời gian:</b> {createdTour.start_time || "-"} đến {createdTour.end_time || "-"}
                   </div>
+                  
                   {/* Selected Cities and Tags Summary */}
                   {(selectedCity || selectedCities.length > 0 || selectedTags.length > 0) && (
                     <div className="mb-3">
@@ -1228,6 +1229,7 @@ function ManualPlanner({ noLayout }) {
                       </div>
                     </div>
                   )}
+                  
                   {/* Auto reminder message */}
                   {createdTour.start_time && (
                     <div className="alert alert-info mt-3">

@@ -705,7 +705,7 @@ const AutoPlanner = ({ noLayout }) => {
 
       {/* Create Place Modal */}
       {showCreatePlaceModal && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.4)" }}>
+        <div className="planner-modal-overlay" tabIndex="-1">
           <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <div className="modal-header">
