@@ -10,6 +10,8 @@ import { getPlaceTags, createPlaceTag, deletePlaceTag } from "../../api/placeTag
 import { Modal, Button } from "react-bootstrap";
 import debounce from 'lodash.debounce';
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 function PlacesAdmin() {
   const [places, setPlaces] = useState([]);
   const [name, setName] = useState("");
