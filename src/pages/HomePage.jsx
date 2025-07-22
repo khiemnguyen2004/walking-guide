@@ -206,6 +206,13 @@ function HomePage() {
     setShowPlaceDetailMap(true);
   };
 
+  // In hotel card rendering, replace hotel.images[0].image_url with the main image logic:
+  const getMainHotelImage = (hotel) => {
+    if (!hotel.images || hotel.images.length === 0) return null;
+    const mainImg = hotel.images.find(img => img.is_primary) || hotel.images[0];
+    return mainImg.image_url;
+  };
+
   return (
     <>
       <Header />

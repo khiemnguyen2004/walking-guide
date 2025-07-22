@@ -1048,11 +1048,16 @@ function HotelsAdmin() {
                           <td>{hotel.id}</td>
                           <td>
                             {hotel.images && hotel.images.length > 0 ? (
-                              <img
-                                src={getImageUrl(hotel.images[0].image_url)}
-                                alt={hotel.name}
-                                style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                              />
+                              (() => {
+                                const mainImg = hotel.images.find(img => img.is_primary) || hotel.images[0];
+                                return (
+                                  <img
+                                    src={getImageUrl(mainImg.image_url)}
+                                    alt={hotel.name}
+                                    style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                                  />
+                                );
+                              })()
                             ) : (
                               <div style={{ width: "50px", height: "50px", backgroundColor: "#f8f9fa", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <i className="bi bi-building"></i>
