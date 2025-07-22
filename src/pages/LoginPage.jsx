@@ -16,6 +16,8 @@ function LoginPage() {
   const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const BASE_URL = "https://walkingguide.onrender.com";
+
   // Redirect to home if already logged in
   React.useEffect(() => {
     if (user) {
@@ -26,7 +28,6 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const BASE_URL = "https://walkingguide.onrender.com";
       const res = await axios.post(`${BASE_URL}/api/auth/login`, {
         email,
         password,

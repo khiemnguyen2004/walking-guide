@@ -15,6 +15,8 @@ const highlightStyle = `
   }
 `;
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 const ArticleDetail = () => {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);

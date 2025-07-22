@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../css/UserPage.css";
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
 function UserPage() {
   const { user: authUser, login } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState(null);
