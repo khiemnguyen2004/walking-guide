@@ -164,10 +164,13 @@ function HotelsAdmin() {
   };
 
   const setPrimaryImage = (index) => {
-    setImages(prevImages => prevImages.map((img, i) => ({
-      ...img,
-      is_primary: i === index
-    })));
+    setImages(prevImages => {
+      if (index === 0) return prevImages.map((img, i) => ({ ...img, is_primary: i === 0 }));
+      const newImages = [...prevImages];
+      const [selected] = newImages.splice(index, 1);
+      newImages.unshift({ ...selected, is_primary: true });
+      return newImages.map((img, i) => ({ ...img, is_primary: i === 0 }));
+    });
   };
 
   // Drag and drop functionality
