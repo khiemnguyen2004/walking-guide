@@ -36,7 +36,7 @@ function ToursAdmin() {
   const [pendingTours, setPendingTours] = useState([]);
 
   const fetchTours = async () => {
-    const res = await axios.get(`${BASE_URL}/api/tours`);
+    const res = await axios.get(`${BASE_URL}/api/tours?role=ADMIN`);
     setTours(res.data);
     // Fetch steps for all tours
     const stepsMap = {};
