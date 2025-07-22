@@ -7,6 +7,7 @@ import axiosClient from '../../api/axiosClient';
 import { Modal, Button } from "react-bootstrap";
 import "../../css/AdminLayout.css";
 import { Link } from 'react-router-dom';
+import formatVND from '../../utils/formatVND';
 
 const BASE_URL = "https://walkingguide.onrender.com";
 
@@ -163,11 +164,10 @@ function HotelsAdmin() {
   };
 
   const setPrimaryImage = (index) => {
-    const updatedImages = images.map((img, i) => ({
+    setImages(images.map((img, i) => ({
       ...img,
       is_primary: i === index
-    }));
-    setImages(updatedImages);
+    })));
   };
 
   // Drag and drop functionality
@@ -282,18 +282,22 @@ function HotelsAdmin() {
 
       // Upload images first
       const uploadedImages = [];
-      for (let i = 0; i < imageFiles.length; i++) {
-        const formData = new FormData();
-        formData.append("file", imageFiles[i]);
-        const uploadRes = await axiosClient.post("/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        uploadedImages.push({
-          url: uploadRes.data.url,
-          caption: images[i].caption,
-          is_primary: images[i].is_primary,
-          sort_order: i
-        });
+      const imagesWithPrimary = ensureOnePrimary(images);
+      for (let i = 0; i < imagesWithPrimary.length; i++) {
+        const image = imagesWithPrimary[i];
+        if (image.file) {
+          const formData = new FormData();
+          formData.append("file", image.file);
+          const uploadRes = await axiosClient.post("/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+          uploadedImages.push({
+            url: uploadRes.data.url,
+            caption: image.caption,
+            is_primary: image.is_primary,
+            sort_order: i
+          });
+        }
       }
 
       // Create the hotel
@@ -405,10 +409,10 @@ function HotelsAdmin() {
         sort_order: img.sort_order || 0
       }));
       
-      const allImages = [...existingImages, ...uploadedImages];
+      const allImagesWithPrimary = ensureOnePrimary([...existingImages, ...uploadedImages]);
       
-      console.log('Total images to send:', allImages.length);
-      console.log('Images data:', allImages);
+      console.log('Total images to send:', allImagesWithPrimary.length);
+      console.log('Images data:', allImagesWithPrimary);
 
       // Update the hotel
       const updateData = {
@@ -429,7 +433,7 @@ function HotelsAdmin() {
         check_in_time: checkInTime,
         check_out_time: checkOutTime,
         stars: parseInt(stars) || 0,
-        images: allImages
+        images: allImagesWithPrimary
       };
       
       console.log('Update data:', updateData);
@@ -522,6 +526,13 @@ function HotelsAdmin() {
     setImageFiles([]);
     setAddressSuggestions([]);
     setShowSuggestions(false);
+  };
+
+  const ensureOnePrimary = (imgs) => {
+    if (!imgs.length) return imgs;
+    let found = imgs.findIndex(img => img.is_primary);
+    if (found === -1) imgs[0].is_primary = true;
+    return imgs.map((img, i) => ({ ...img, is_primary: i === (found !== -1 ? found : 0) }));
   };
 
   return (
@@ -675,6 +686,7 @@ function HotelsAdmin() {
                             value={minPrice}
                             onChange={(e) => setMinPrice(e.target.value)}
                           />
+                          {minPrice && <div className="form-text text-success">{formatVND(Number(minPrice))}</div>}
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -686,6 +698,7 @@ function HotelsAdmin() {
                             value={maxPrice}
                             onChange={(e) => setMaxPrice(e.target.value)}
                           />
+                          {maxPrice && <div className="form-text text-success">{formatVND(Number(maxPrice))}</div>}
                         </div>
                       </div>
                     </div>
