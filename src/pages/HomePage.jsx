@@ -678,31 +678,13 @@ function HomePage() {
                           <Link to={`/hotels/${hotel.id}`} className="text-decoration-none" style={{ display: 'block', height: '100%' }}>
                             <div className="position-relative">
                               {hotel.images && hotel.images.length > 0 ? (
-                                <div id={`hotelCarousel${hotel.id}`} className="carousel slide" data-bs-ride="false">
-                                  <div className="carousel-inner">
-                                    {hotel.images.map((image, index) => (
-                                      <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
-                                        <img
-                                          src={getImageUrl(image.image_url)}
-                                          alt={image.caption || hotel.name}
-                                          className="card-img-top luxury-img-top"
-                                          style={{ height: 220, objectFit: "cover"}}
-                                          onError={(e) => { e.target.style.display = 'none'; }}
-                                        />
-                                      </div>
-                                    ))}
-                                  </div>
-                                  {hotel.images.length > 1 && (
-                                    <>
-                                      <button className="carousel-control-prev" type="button" data-bs-target={`#hotelCarousel${hotel.id}`} data-bs-slide="prev">
-                                        <span className="carousel-control-prev-icon"></span>
-                                      </button>
-                                      <button className="carousel-control-next" type="button" data-bs-target={`#hotelCarousel${hotel.id}`} data-bs-slide="next">
-                                        <span className="carousel-control-next-icon"></span>
-                                      </button>
-                                    </>
-                                  )}
-                                </div>
+                                <img
+                                  src={getImageUrl(getMainHotelImage(hotel))}
+                                  alt={hotel.name}
+                                  className="card-img-top luxury-img-top"
+                                  style={{ height: 220, objectFit: "cover" }}
+                                  onError={(e) => { e.target.style.display = 'none'; }}
+                                />
                               ) : (
                                 <div 
                                   className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
@@ -770,31 +752,13 @@ function HomePage() {
                                   <Link to={`/hotels/${hotel.id}`} className="text-decoration-none" style={{ display: 'block', height: '100%' }}>
                                     <div className="position-relative">
                                       {hotel.images && hotel.images.length > 0 ? (
-                                        <div id={`hotelCarousel${hotel.id}`} className="carousel slide" data-bs-ride="false">
-                                          <div className="carousel-inner">
-                                            {hotel.images.map((image, index) => (
-                                              <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
-                                                <img
-                                                  src={getImageUrl(image.image_url)}
-                                                  alt={image.caption || hotel.name}
-                                                  className="card-img-top luxury-img-top"
-                                                  style={{ height: 220, objectFit: "cover" }}
-                                                  onError={(e) => { e.target.style.display = 'none'; }}
-                                                />
-                                              </div>
-                                            ))}
-                                          </div>
-                                          {hotel.images.length > 1 && (
-                                            <>
-                                              <button className="carousel-control-prev" type="button" data-bs-target={`#hotelCarousel${hotel.id}`} data-bs-slide="prev">
-                                                <span className="carousel-control-prev-icon"></span>
-                                              </button>
-                                              <button className="carousel-control-next" type="button" data-bs-target={`#hotelCarousel${hotel.id}`} data-bs-slide="next">
-                                                <span className="carousel-control-next-icon"></span>
-                                              </button>
-                                            </>
-                                          )}
-                                        </div>
+                                        <img
+                                          src={getImageUrl(getMainHotelImage(hotel))}
+                                          alt={hotel.name}
+                                          className="card-img-top luxury-img-top"
+                                          style={{ height: 220, objectFit: "cover" }}
+                                          onError={(e) => { e.target.style.display = 'none'; }}
+                                        />
                                       ) : (
                                         <div 
                                           className="card-img-top luxury-img-top d-flex align-items-center justify-content-center"
