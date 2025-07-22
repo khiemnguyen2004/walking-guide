@@ -9,6 +9,9 @@ import tourStepApi from "../../api/tourStepApi";
 import { Modal, Button } from "react-bootstrap";
 import "../../css/AdminLayout.css";
 
+const BASE_URL = "https://walkingguide.onrender.com";
+
+
 function ToursAdmin() {
   const { user } = useContext(AuthContext);
   const [tours, setTours] = useState([]);
@@ -33,7 +36,7 @@ function ToursAdmin() {
   const [pendingTours, setPendingTours] = useState([]);
 
   const fetchTours = async () => {
-    const res = await axios.get(`${BASE_URL}/api/tours?role=ADMIN`);
+    const res = await axios.get(`${BASE_URL}/api/tours`);
     setTours(res.data);
     // Fetch steps for all tours
     const stepsMap = {};
