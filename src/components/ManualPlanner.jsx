@@ -1025,10 +1025,7 @@ function ManualPlanner({ noLayout }) {
                       <Card.Title className="fw-bold" style={{ color: selectedHotel?.id === hotel.id ? '#1a5bb8' : undefined }}>{hotel.name}</Card.Title>
                       <Card.Text>
                         <span>{hotel.address}</span><br/>
-                        <span className="text-muted">{hotel.city}</span><br/>
-                        {hotel.min_price && hotel.max_price && (
-                          <span>Giá: {hotel.min_price} - {hotel.max_price} VND</span>
-                        )}
+                        <span className="text-muted">{hotel.city}</span>
                       </Card.Text>
                       <div className="d-flex gap-2 mt-2">
                         <Button variant={selectedHotel?.id === hotel.id ? "primary" : "outline-primary"} size="sm" onClick={e => { e.stopPropagation(); setSelectedHotel(hotel); }}>
