@@ -62,8 +62,8 @@ function HotelsAdmin() {
   // Helper function to get proper image URL
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return null;
-    if (imageUrl.startsWith('http')) {
-      return imageUrl; // Already absolute URL
+    if (imageUrl.startsWith('http') || imageUrl.startsWith('blob:')) {
+      return imageUrl; // Already absolute URL or local preview
     }
     // Prepend backend URL for relative paths
     return `${BASE_URL}${imageUrl}`;
