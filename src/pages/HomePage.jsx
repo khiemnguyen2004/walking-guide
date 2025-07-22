@@ -550,7 +550,7 @@ function HomePage() {
                               </div>
                               {tour.total_cost && (
                                 <p className="card-text text-muted small mb-0 luxury-rating">
-                                  <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(tour.total_cost)} VND
+                                  <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(tour.total_cost)}
                                 </p>
                               )}
                             </div>
