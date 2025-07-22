@@ -21,7 +21,13 @@ function ManualPlanner({ noLayout }) {
   const [tourName, setTourName] = useState("");
   const [description, setDescription] = useState("");
   const [totalCost, setTotalCost] = useState(0);
-  const [steps, setSteps] = useState([]);
+  const [steps, setSteps] = useState([
+    {
+      place: "",
+      start_time: "",
+      end_time: "",
+    }
+  ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user, logout, refreshNotifications } = useContext(AuthContext);
   const [start_time, setStart_time] = useState("");
@@ -305,55 +311,25 @@ function ManualPlanner({ noLayout }) {
     return nextDay.toISOString().split('T')[0];
   };
 
-  const handleAddStep = () => {
-    setSteps([
+  const defaultDateTime = new Date().toISOString().slice(0, 16);
+
+  const updateStep = (idx, newStep) => {
+    setSteps(steps => steps.map((s, i) => (i === idx ? newStep : s)));
+  };
+
+  const addStep = () => {
+    setSteps(steps => [
       ...steps,
       {
-        place_id: "",
-        step_order: steps.length + 1,
-        start_time: "",
-        end_time: "",
-        day: 1 // default to day 1
+        place: "",
+        start_time: defaultDateTime,
+        end_time: defaultDateTime,
       }
     ]);
   };
 
-  const handleRemoveStep = (index) => {
-    const newSteps = steps.filter((_, i) => i !== index);
-    // Reorder remaining steps
-    const reorderedSteps = newSteps.map((step, i) => ({
-      ...step,
-      step_order: i + 1
-    }));
-    setSteps(reorderedSteps);
-  };
-
-  const handleMoveStep = (index, direction) => {
-    if (direction === 'up' && index === 0) return;
-    if (direction === 'down' && index === steps.length - 1) return;
-
-    const newSteps = [...steps];
-    const targetIndex = direction === 'up' ? index - 1 : index + 1;
-    
-    // Swap steps
-    [newSteps[index], newSteps[targetIndex]] = [newSteps[targetIndex], newSteps[index]];
-    
-    // Update step_order
-    newSteps.forEach((step, i) => {
-      step.step_order = i + 1;
-    });
-    
-    setSteps(newSteps);
-  };
-
-  const handleChangeStep = (index, field, value) => {
-    const newSteps = [...steps];
-    if (field === "step_order" || field === "day") {
-      newSteps[index][field] = parseInt(value) || 1;
-    } else {
-      newSteps[index][field] = value;
-    }
-    setSteps(newSteps);
+  const removeStep = idx => {
+    setSteps(steps => steps.filter((_, i) => i !== idx));
   };
 
   const handleSubmit = async (e) => {
@@ -366,7 +342,7 @@ function ManualPlanner({ noLayout }) {
       setShowAlert(true);
       return;
     }
-    if (steps.some(step => !step.place_id)) {
+    if (steps.some(step => !step.place)) {
       setAlertMessage('Vui lòng chọn địa điểm cho tất cả các bước!');
       setAlertType('warning');
       setShowAlert(true);
@@ -375,11 +351,11 @@ function ManualPlanner({ noLayout }) {
     setIsSubmitting(true);
     try {
       // Find the first place with an image for the tour cover
-      const firstStepWithImage = steps.find(s => s.place_id && places.find(p => p.id == s.place_id)?.image_url);
+      const firstStepWithImage = steps.find(s => s.place && places.find(p => p.id == s.place)?.image_url);
       const imageUrl = firstStepWithImage ? (
-        places.find(p => p.id == firstStepWithImage.place_id).image_url.startsWith('http')
-          ? places.find(p => p.id == firstStepWithImage.place_id).image_url
-          : `${BASE_URL}${places.find(p => p.id == firstStepWithImage.place_id).image_url}`
+        places.find(p => p.id == firstStepWithImage.place).image_url.startsWith('http')
+          ? places.find(p => p.id == firstStepWithImage.place).image_url
+          : `${BASE_URL}${places.find(p => p.id == firstStepWithImage.place).image_url}`
       ) : '';
       const res = await axiosClient.post(`${BASE_URL}/api/tours`, {
         name: tourName, // Always use the tour name input
@@ -714,7 +690,7 @@ function ManualPlanner({ noLayout }) {
               }}>
                 <i className="bi bi-magic me-1"></i>Tự động phân ngày
               </button> */}
-              <button className="btn btn-main btn-sm" onClick={handleAddStep}>
+              <button className="btn btn-main btn-sm" onClick={addStep}>
                 Thêm địa điểm
               </button>
             </div>
@@ -780,7 +756,7 @@ function ManualPlanner({ noLayout }) {
               <div className="row row-cols-1 row-cols-md-3 g-4">
                 {cityPlaces.length === 0 && <div className="col">Không có địa điểm gợi ý cho thành phố này.</div>}
                 {cityPlaces.map(place => {
-                  const isSelected = steps.some(step => step.place_id === place.id);
+                  const isSelected = steps.some(step => step.place === place.id);
                   return (
                     <div className="col" key={place.id}>
                       <Card
@@ -790,9 +766,7 @@ function ManualPlanner({ noLayout }) {
                           if (!isSelected) {
                             // Add as a new step
                             setSteps([...steps, {
-                              place_id: place.id,
-                              step_order: steps.length + 1,
-                              day: 1 + Math.floor(steps.length / 3),
+                              place: place.id,
                               start_time: "",
                               end_time: ""
                             }]);
@@ -814,9 +788,7 @@ function ManualPlanner({ noLayout }) {
                               <Button variant="primary" size="sm" disabled>Đã thêm</Button>
                             ) : (
                               <Button variant="outline-primary" size="sm" onClick={e => { e.stopPropagation(); setSteps([...steps, {
-                                place_id: place.id,
-                                step_order: steps.length + 1,
-                                day: 1 + Math.floor(steps.length / 3),
+                                place: place.id,
                                 start_time: "",
                                 end_time: ""
                               }]); }}>Thêm vào kế hoạch</Button>
@@ -841,134 +813,42 @@ function ManualPlanner({ noLayout }) {
             </div>
           ) : (
             <>
-              <div className="tour-steps-container">
-                {sortedDays.map(dayNum => (
-                  <div key={dayNum} className="mb-4">
-                    <h5 className="fw-bold mb-3">Ngày {dayNum}</h5>
-                    {stepsByDay[dayNum].map((step, i) => {
-                      const selectedPlace = getSelectedPlace(step.place_id);
-                      const stepIndex = steps.findIndex(s => s === step);
-                      return (
-                        <div key={stepIndex} className="tour-step-card mb-3">
-                          <div className="tour-step-header">
-                            <div className="step-number">{step.step_order}</div>
-                            <div className="step-controls">
-                              <button 
-                                className="btn btn-sm btn-outline-secondary me-1"
-                                onClick={() => handleMoveStep(stepIndex, 'up')}
-                                disabled={stepIndex === 0}
-                                title="Di chuyển lên"
-                              >
-                                <i className="bi bi-arrow-up"></i>
-                              </button>
-                              <button 
-                                className="btn btn-sm btn-outline-secondary me-1"
-                                onClick={() => handleMoveStep(stepIndex, 'down')}
-                                disabled={stepIndex === steps.length - 1}
-                                title="Di chuyển xuống"
-                              >
-                                <i className="bi bi-arrow-down"></i>
-                              </button>
-                              <button 
-                                className="btn btn-sm btn-outline-danger"
-                                onClick={() => handleRemoveStep(stepIndex)}
-                                title="Xóa địa điểm"
-                              >
-                                <i className="bi bi-trash"></i>
-                              </button>
-                            </div>
-                          </div>
-                          <div className="tour-step-content">
-                            <div className="row g-3">
-                              <div className="col-md-8">
-                                <label className="form-label fw-bold">Địa điểm <span className="text-danger">*</span></label>
-                                <select
-                                  className="form-select"
-                                  value={step.place_id}
-                                  onChange={(e) => handleChangeStep(stepIndex, "place_id", e.target.value)}
-                                >
-                                  <option value="">-- Chọn địa điểm --</option>
-                                  {/* Show suggested places grouped by city */}
-                                  {Object.entries(getPlacesByCity()).map(([city, cityPlacesList]) => (
-                                    <optgroup key={city} label={`${city} (${cityPlacesList.length} địa điểm)`}>
-                                      {cityPlacesList.map((p) => (
-                                        <option key={`suggested-${p.id}`} value={p.id}>
-                                          {p.name}
-                                        </option>
-                                      ))}
-                                    </optgroup>
-                                  ))}
-                                  {/* Show all other places */}
-                                  <optgroup label="Tất cả địa điểm khác">
-                                    {places.filter(p => !cityPlaces.some(cp => cp.id === p.id)).map((p) => (
-                                      <option key={p.id} value={p.id}>
-                                        {p.name} - {p.city}
-                                      </option>
-                                    ))}
-                                  </optgroup>
-                                </select>
-                                {selectedPlace && (
-                                  <div className="mt-2 p-2 bg-light rounded">
-                                    <small className="text-muted">
-                                      <i className="bi bi-map-marker-alt me-1"></i>
-                                      {selectedPlace.address}
-                                    </small>
-                                  </div>
-                                )}
-                              </div>
-                              <div className="col-md-2">
-                                <label className="form-label fw-bold">Ngày</label>
-                                <select
-                                  className="form-select"
-                                  value={step.day || 1}
-                                  onChange={e => handleChangeStep(stepIndex, "day", e.target.value)}
-                                >
-                                  {Array.from({ length: calculateTotalDays() }, (_, i) => (
-                                    <option key={i + 1} value={i + 1}>Ngày {i + 1}</option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div className="col-md-2">
-                                <label className="form-label fw-bold">Thứ tự</label>
-                                <input
-                                  type="number"
-                                  className="form-control"
-                                  min="1"
-                                  value={step.step_order}
-                                  onChange={(e) => handleChangeStep(stepIndex, "step_order", e.target.value)}
-                                />
-                              </div>
-                              <div className="col-md-6">
-                                <label className="form-label fw-bold">Thời gian bắt đầu</label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  value={step.start_time || ""}
-                                  onChange={(e) => handleChangeStep(stepIndex, "start_time", e.target.value)}
-                                />
-                              </div>
-                              <div className="col-md-6">
-                                <label className="form-label fw-bold">Thời gian kết thúc</label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  value={step.end_time || ""}
-                                  onChange={(e) => handleChangeStep(stepIndex, "end_time", e.target.value)}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+              <div className="tour-steps-section">
+                {steps.map((step, idx) => (
+                  <div className="tour-step-row d-flex align-items-center gap-2 mb-2" key={idx}>
+                    <select
+                      className="form-control"
+                      value={step.place}
+                      onChange={e => updateStep(idx, { ...step, place: e.target.value })}
+                    >
+                      <option value="">Chọn địa điểm</option>
+                      {places.map(place => (
+                        <option key={place.id} value={place.id}>
+                          {place.name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="datetime-local"
+                      className="form-control"
+                      value={step.start_time || defaultDateTime}
+                      onChange={e => updateStep(idx, { ...step, start_time: e.target.value })}
+                      style={{ minWidth: 160 }}
+                    />
+                    <input
+                      type="datetime-local"
+                      className="form-control"
+                      value={step.end_time || defaultDateTime}
+                      onChange={e => updateStep(idx, { ...step, end_time: e.target.value })}
+                      style={{ minWidth: 160 }}
+                    />
+                    <button className="btn btn-danger" onClick={() => removeStep(idx)}>
+                      <i className="bi bi-trash"></i>
+                    </button>
                   </div>
                 ))}
-                <button 
-                  className="btn btn-main btn-sm mb-3"
-                  onClick={() => handleAddStep()}
-                  title="Thêm địa điểm"
-                >
-                  Thêm
+                <button className="btn btn-main mt-2" onClick={addStep}>
+                 Thêm địa điểm
                 </button>
               </div>
               {/* Add summary preview below steps */}
@@ -978,7 +858,7 @@ function ManualPlanner({ noLayout }) {
                   {sortedDays.map(dayNum => (
                     <li key={dayNum}>
                       <b>Ngày {dayNum}:</b> {stepsByDay[dayNum].map(step => {
-                        const place = getSelectedPlace(step.place_id);
+                        const place = getSelectedPlace(step.place);
                         return place ? place.name : "(Chưa chọn địa điểm)";
                       }).join(', ')}
                     </li>
@@ -1269,7 +1149,7 @@ function ManualPlanner({ noLayout }) {
                       {sortedDays.map(dayNum => (
                         <li key={dayNum}>
                           <b>Ngày {dayNum}:</b> {stepsByDay[dayNum].map(step => {
-                            const place = getSelectedPlace(step.place_id);
+                            const place = getSelectedPlace(step.place);
                             return place ? place.name : "(Chưa chọn địa điểm)";
                           }).join(', ')}
                         </li>

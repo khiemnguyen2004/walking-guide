@@ -293,6 +293,35 @@ const AutoPlanner = ({ noLayout }) => {
     return grouped;
   }
 
+  const defaultDateTime = new Date().toISOString().slice(0, 16);
+
+  const [steps, setSteps] = useState([
+    {
+      place: "",
+      start_time: defaultDateTime,
+      end_time: defaultDateTime,
+    }
+  ]);
+
+  const updateStep = (idx, newStep) => {
+    setSteps(steps => steps.map((s, i) => (i === idx ? newStep : s)));
+  };
+
+  const addStep = () => {
+    setSteps(steps => [
+      ...steps,
+      {
+        place: "",
+        start_time: defaultDateTime,
+        end_time: defaultDateTime,
+      }
+    ]);
+  };
+
+  const removeStep = idx => {
+    setSteps(steps => steps.filter((_, i) => i !== idx));
+  };
+
   if (!user) {
     const content = (
       <div className="container py-4">
@@ -645,7 +674,7 @@ const AutoPlanner = ({ noLayout }) => {
         <div className="luxury-card">
           <div className="luxury-card-body">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h4 className="mb-0">Tour được tạo</h4>
+              <h4 className="mb-0" style={{color: '#3b82f6'}}>Chuyến đi được tạo</h4>
               <button
                 onClick={saveTour}
                 className="btn btn-main"
@@ -680,12 +709,12 @@ const AutoPlanner = ({ noLayout }) => {
                       {start_time && end_time ? `${start_time} → ${end_time}` : `${tourData.steps.length} địa điểm`}
                   </small>
                 </div>
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <small className="text-muted">
                     <i className="bi bi-clock me-1"></i>
                     {tourData.steps.reduce((total, step) => total + (step.stay_duration || 0), 0)} phút
                   </small>
-                </div>
+                </div> */}
                 {/* <div className="col-md-4">
                   <small className="text-muted">
                     <i className="bi bi-cash me-1"></i>
@@ -698,7 +727,7 @@ const AutoPlanner = ({ noLayout }) => {
             {/* Tour Steps Preview */}
             {tourData && tourData.steps && tourData.steps.length > 0 && (
               <div className="mt-4">
-                <h4 className="fw-bold mb-3">Hành trình gợi ý</h4>
+                <h4 className="fw-bold mb-3" style={{color: '#3b82f6'}}>Hành trình gợi ý</h4>
                 {Object.entries(groupStepsByDay(tourData.steps)).map(([day, steps]) => (
                   <div key={day} className="mb-4">
                     <h5 className="mb-3" style={{color: '#1a5bb8'}}>Ngày {day}</h5>
