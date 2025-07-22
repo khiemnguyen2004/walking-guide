@@ -22,6 +22,7 @@ const HotelDetail = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingCheckIn, setBookingCheckIn] = useState("");
   const [bookingCheckOut, setBookingCheckOut] = useState("");
+  const [bookingHotel, setBookingHotel] = useState(null);
   const [bookingStatus, setBookingStatus] = useState(null);
   const [selectedRoomType, setSelectedRoomType] = useState('');
   const { user } = useContext(AuthContext);
