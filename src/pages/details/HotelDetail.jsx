@@ -8,6 +8,7 @@ import hotelApi from '../../api/hotelApi';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { AuthContext } from '../../contexts/AuthContext';
 import RatingStars from '../../components/RatingStars';
+import formatVND from '../../utils/formatVND';
 
 const BASE_URL = "https://walkingguide.onrender.com";
 
@@ -22,6 +23,7 @@ const HotelDetail = () => {
   const [bookingCheckIn, setBookingCheckIn] = useState("");
   const [bookingCheckOut, setBookingCheckOut] = useState("");
   const [bookingStatus, setBookingStatus] = useState(null);
+  const [selectedRoomType, setSelectedRoomType] = useState('');
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -131,6 +133,31 @@ const HotelDetail = () => {
               <Form.Label>Ngày trả phòng</Form.Label>
               <Form.Control type="date" value={bookingCheckOut} onChange={e => setBookingCheckOut(e.target.value)} />
             </Form.Group>
+            {Array.isArray(hotel.room_types) && hotel.room_types.length > 0 && (
+              <Form.Group className="mb-3">
+                <Form.Label>Loại phòng</Form.Label>
+                <Form.Select value={selectedRoomType} onChange={e => setSelectedRoomType(e.target.value)}>
+                  <option value="">Chọn loại phòng</option>
+                  {hotel.room_types.map((type, idx) => (
+                    typeof type === 'object' ? (
+                      <option key={type.type || idx} value={type.type}>{type.type}</option>
+                    ) : (
+                      <option key={type} value={type}>{type}</option>
+                    )
+                  ))}
+                </Form.Select>
+                {/* Show price for selected room type */}
+                {selectedRoomType && hotel.room_types && hotel.room_types.length > 0 && (
+                  (() => {
+                    const found = hotel.room_types.find(rt => (typeof rt === 'object' ? rt.type : rt) === selectedRoomType);
+                    if (found && typeof found === 'object' && found.price) {
+                      return <div className="mt-2 text-success">Giá: <b>{formatVND(found.price)}</b></div>;
+                    }
+                    return null;
+                  })()
+                )}
+              </Form.Group>
+            )}
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -145,12 +172,13 @@ const HotelDetail = () => {
                 hotel_id: hotel.id,
                 check_in: bookingCheckIn,
                 check_out: bookingCheckOut,
+                room_type: selectedRoomType,
               });
               setBookingStatus('success');
             } catch {
               setBookingStatus('error');
             }
-          }} disabled={!bookingCheckIn || !bookingCheckOut}>
+          }} disabled={!bookingCheckIn || !bookingCheckOut || (Array.isArray(hotel.room_types) && hotel.room_types.length > 0 && !selectedRoomType)}>
             Xác nhận đặt phòng
           </Button>
         </Modal.Footer>

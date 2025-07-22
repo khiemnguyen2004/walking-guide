@@ -17,6 +17,7 @@ import CustomConfirmModal from '../components/CustomConfirmModal.jsx';
 import LocationAutocomplete from "../components/LocationAutocomplete.jsx";
 import hotelApi from '../api/hotelApi';
 import { useAlert } from '../hooks/useAlert';
+import formatVND from '../utils/formatVND';
 
 function MyTours() {
   const { user } = useContext(AuthContext);
@@ -742,14 +743,14 @@ function MyTours() {
                         </div>
                         {tour.total_cost && (
                           <p className="card-text text-muted small mb-0 luxury-rating">
-                            <span className="luxury-money"><i className="bi bi-coin"></i></span> {tour.total_cost} VND
+                            <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(tour.total_cost)} VND
                           </p>
                         )}
                         {/* Show spots and total_price if available */}
                         {tour.booking && (
                           <>
                             <div className="text-muted small mb-1">Số lượng khách: <b>{tour.booking.spots}</b></div>
-                            <div className="text-muted small mb-2">Tổng giá: <b>{tour.booking.total_price?.toLocaleString('vi-VN')} VND</b></div>
+                            <div className="text-muted small mb-2">Tổng giá: <b>{formatVND(tour.booking.total_price)} VND</b></div>
                           </>
                         )}
                       </div>
@@ -962,7 +963,7 @@ function MyTours() {
             <span className="badge bg-info text-dark me-2">
               {modalTour?.start_time ? new Date(modalTour.start_time).toLocaleDateString() : '--'} → {modalTour?.end_time ? new Date(modalTour.end_time).toLocaleDateString() : '--'}
                   </span>
-            <span className="badge bg-light text-dark"><i className="bi bi-currency-exchange"></i> {modalTour?.total_cost?.toLocaleString('vi-VN')} VND</span>
+            <span className="badge bg-light text-dark"><i className="bi bi-currency-exchange"></i> {formatVND(modalTour?.total_cost)} VND</span>
             </div>
           {modalSteps.length > 0 && (
             <div className="mt-4">

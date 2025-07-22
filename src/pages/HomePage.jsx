@@ -22,6 +22,7 @@ import tourApi from '../api/tourApi';
 import hotelApi from '../api/hotelApi';
 import { AuthContext } from '../contexts/AuthContext';
 import axiosClient from '../api/axiosClient';
+import formatVND from '../utils/formatVND';
 const BASE_URL = "https://walkingguide.onrender.com";
 
 // Helper to chunk array into groups of 3
@@ -549,7 +550,7 @@ function HomePage() {
                               </div>
                               {tour.total_cost && (
                                 <p className="card-text text-muted small mb-0 luxury-rating">
-                                  <span className="luxury-money"><i className="bi bi-coin"></i></span> {tour.total_cost} VND
+                                  <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(tour.total_cost)} VND
                                 </p>
                               )}
                             </div>
@@ -611,7 +612,7 @@ function HomePage() {
                                       </div>
                                       {tour.total_cost && (
                                         <p className="card-text text-muted small mb-0 luxury-rating">
-                                          <span className="luxury-money"><i className="bi bi-coin"></i></span> {tour.total_cost} VND
+                                          <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(tour.total_cost)} VND
                                         </p>
                                       )}
                                     </div>
@@ -725,8 +726,8 @@ function HomePage() {
                               <RatingStars id={hotel.id} type="hotel" />
                               {hotel.price_range && (
                                 <p className="card-text text-muted small mb-0">
-                                  <span className="luxury-money"><i className="bi bi-coin"></i></span> {hotel.price_range}
-                                  {hotel.min_price > 0 && ` (${hotel.min_price.toLocaleString()} VND)`}
+                                  <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(hotel.price_range)}
+                                  {hotel.min_price > 0 && ` (${formatVND(hotel.min_price)})`}
                                 </p>
                               )}
                             </div>
@@ -817,8 +818,8 @@ function HomePage() {
                                       <RatingStars id={hotel.id} type="hotel" />
                                       {hotel.price_range && (
                                         <p className="card-text text-muted small mb-0">
-                                          <span className="luxury-money"><i className="bi bi-coin"></i></span> {hotel.price_range}
-                                          {hotel.min_price > 0 && ` (${hotel.min_price.toLocaleString()} VND)`}
+                                          <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(hotel.price_range)}
+                                          {hotel.min_price > 0 && ` (${formatVND(hotel.min_price)})`}
                                         </p>
                                       )}
                                     </div>
@@ -913,8 +914,8 @@ function HomePage() {
                               <RatingStars id={restaurant.id} type="restaurant" />
                               {restaurant.price_range && (
                                 <p className="card-text text-muted small mb-0">
-                                    <span className="luxury-money"><i className="bi bi-coin"></i></span> {restaurant.price_range}
-                                  {restaurant.min_price > 0 && ` (${restaurant.min_price.toLocaleString()} VND)`}
+                                    <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(restaurant.price_range)}
+                                  {restaurant.min_price > 0 && ` (${formatVND(restaurant.min_price)})`}
                                 </p>
                               )}
                             </div>
@@ -983,8 +984,8 @@ function HomePage() {
                                       <RatingStars id={restaurant.id} type="restaurant" />
                                       {restaurant.price_range && (
                                         <p className="card-text text-muted small mb-0">
-                                          <span className="luxury-money"><i className="bi bi-coin"></i></span> {restaurant.price_range}
-                                          {restaurant.min_price > 0 && ` (${restaurant.min_price.toLocaleString()} VND)`}
+                                          <span className="luxury-money"><i className="bi bi-coin"></i></span> {formatVND(restaurant.price_range)}
+                                          {restaurant.min_price > 0 && ` (${formatVND(restaurant.min_price)})`}
                                         </p>
                                       )}
                                     </div>

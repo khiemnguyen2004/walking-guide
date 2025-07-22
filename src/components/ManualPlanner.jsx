@@ -13,6 +13,7 @@ import groupBy from "lodash/groupBy";
 import hotelApi from '../api/hotelApi';
 import { Modal, Form } from 'react-bootstrap';
 import axiosClient from '../api/axiosClient';
+import formatVND from '../utils/formatVND';
 const BASE_URL = "https://walkingguide.onrender.com";
 
 function ManualPlanner({ noLayout }) {
@@ -568,7 +569,7 @@ function ManualPlanner({ noLayout }) {
               {totalCost && (
                 <div className="form-text">
                   <i className="bi bi-info-circle me-1"></i>
-                  Chi phí: {parseInt(totalCost).toLocaleString('vi-VN')} VNĐ
+                  Chi phí: {formatVND(parseInt(totalCost))} VNĐ
                 </div>
               )}
               
@@ -987,7 +988,7 @@ function ManualPlanner({ noLayout }) {
                             <span>{hotel.address}</span><br/>
                             <span className="text-muted">{hotel.city}</span><br/>
                             {hotel.min_price && hotel.max_price && (
-                              <span>Giá: {hotel.min_price} - {hotel.max_price} VND</span>
+                              <span>Giá: {formatVND(hotel.min_price)} - {formatVND(hotel.max_price)} VND</span>
                             )}
                           </Card.Text>
                           <div className="d-flex gap-2 mt-2">
