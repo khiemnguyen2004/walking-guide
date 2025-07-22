@@ -164,7 +164,7 @@ function HotelsAdmin() {
   };
 
   const setPrimaryImage = (index) => {
-    setImages(images.map((img, i) => ({
+    setImages(prevImages => prevImages.map((img, i) => ({
       ...img,
       is_primary: i === index
     })));
@@ -903,6 +903,7 @@ function HotelsAdmin() {
                                      style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.7))' }}>
                                   <div className="d-flex justify-content-between align-items-center">
                                     <button
+                                      type="button"
                                       className={`btn btn-sm ${image.is_primary ? 'btn-success' : 'btn-outline-success'}`}
                                       onClick={() => setPrimaryImage(index)}
                                       title={image.is_primary ? 'Đã là ảnh chính' : 'Đặt làm ảnh chính'}
