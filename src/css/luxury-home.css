@@ -24,7 +24,10 @@ body{
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
+body.modal-open .luxury-header,
+body.modal-open .luxury-navbar {
+  display: none !important;
+}
 .luxury-section-title {
   color: var(--luxury-title);
   letter-spacing: 1.5px;

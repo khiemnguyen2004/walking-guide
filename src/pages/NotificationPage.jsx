@@ -264,7 +264,6 @@ const NotificationPage = () => {
           <div className="modal-content border-0 shadow-lg">
             <div className="modal-header bg-danger text-white">
               <h5 className="modal-title">
-                <i className="bi bi-exclamation-triangle me-2"></i>
                 Xác nhận xóa
               </h5>
               <button type="button" className="btn-close btn-close-white" onClick={cancelDelete}></button>

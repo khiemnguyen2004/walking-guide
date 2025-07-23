@@ -105,7 +105,7 @@ function MyTours() {
           showError('Không thể xóa một số tour.');
         }
       },
-      'Xác nhận xóa tour'
+      'Xác nhận xóa chuyến đi'
     );
   };
   const handleDeleteSelectedBookings = async () => {
@@ -392,7 +392,7 @@ function MyTours() {
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content" style={{borderRadius:16, boxShadow:'0 4px 24px #1a5bb822'}}>
                 <div className="modal-header">
-                  <h5 className="modal-title">Xác nhận xóa tour</h5>
+                  <h5 className="modal-title">Xác nhận xóa chuyến đi</h5>
                   <button type="button" className="btn-close" onClick={() => { setShowDeleteModal(false); setTourToDelete(null); }}></button>
                 </div>
                 <div className="modal-body text-center">
@@ -429,7 +429,6 @@ function MyTours() {
                 </div>
                 <div className="modal-body text-center">
                   <div className="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
-                    <i className="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>{deleteError}</div>
                   </div>
                   <button className="btn btn-main mt-3" onClick={() => setDeleteError("")}>Đóng</button>
@@ -452,7 +451,7 @@ function MyTours() {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="mb-3">
-                          <label className="form-label">Tên tour</label>
+                          <label className="form-label">Tên chuyến đi</label>
                           <input type="text" className="form-control" name="name" value={(() => {
                             const firstStep = editForm.steps && editForm.steps[0];
                             const firstPlace = firstStep ? allPlaces.find(p => p.id == firstStep.place_id) : null;
@@ -680,7 +679,7 @@ function MyTours() {
                   </div>
                   <div className="d-flex gap-2">
                     <button className="btn btn-sm btn-outline-primary" onClick={e => { e.stopPropagation(); setSelected(tour); setShowEditModal(true); }}>Sửa</button>
-                    <button className="btn btn-sm btn-outline-danger" onClick={e => { e.stopPropagation(); showDeleteConfirm('Bạn có chắc muốn xóa tour này?', () => handleDeleteTour(tour.id)); }}>Xóa</button>
+                    <button className="btn btn-sm btn-outline-danger" onClick={e => { e.stopPropagation(); showDeleteConfirm('Bạn có chắc muốn xóa chuyến đi này?', () => handleDeleteTour(tour.id)); }}>Xóa</button>
                   </div>
                 </div>
               );

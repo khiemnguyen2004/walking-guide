@@ -476,7 +476,7 @@ function ManualPlanner({ noLayout }) {
                 />
                 <button
                   type="button"
-                  className="btn btn-outline-success"
+                  className="btn btn-main"
                   onClick={() => {
                     if (newCity.trim() && !selectedCities.includes(newCity.trim())) {
                       const updatedCities = [...selectedCities, newCity.trim()];
@@ -493,7 +493,7 @@ function ManualPlanner({ noLayout }) {
               {selectedCities.length > 0 && (
                 <div className="mt-2">
                   {selectedCities.map((city, index) => (
-                    <span key={index} className="badge bg-success me-2 mb-1" style={{fontSize: '1em'}}>
+                    <span key={index} className="badge me-2 mb-1" style={{fontSize: '1em', backgroundColor: '#3b82f6', color: 'white'}}>
                       <i className="bi bi-geo-alt me-1"></i>
                       {city}
                       <button
@@ -700,10 +700,6 @@ function ManualPlanner({ noLayout }) {
           {(selectedCity || selectedCities.length > 0 || selectedTags.length > 0) && (
             <div className="mt-4">
               <div className="alert alert-info border-0 shadow-sm">
-                <h6 className="mb-3">
-                  <i className="bi bi-info-circle me-2"></i>
-                  Tóm tắt lựa chọn của bạn
-                </h6>
                 <div className="row">
                   {(selectedCity || selectedCities.length > 0) && (
                     <div className="col-md-6 mb-2">
@@ -718,7 +714,7 @@ function ManualPlanner({ noLayout }) {
                           </span>
                         )}
                         {selectedCities.map((city, index) => (
-                          <span key={index} className="badge bg-success me-1 mb-1">
+                          <span key={index} className="badge bg-primary me-1 mb-1">
                             {city}
                           </span>
                         ))}

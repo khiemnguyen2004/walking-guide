@@ -608,7 +608,7 @@ const AutoPlanner = ({ noLayout }) => {
           )}
 
           {/* Filter Summary */}
-          {(selectedCity || selectedTags.length > 0) && (
+          {/* {(selectedCity || selectedTags.length > 0) && (
             <div className="mt-4">
               <div className="alert alert-info border-0 shadow-sm">
                 <h6 className="mb-2">
@@ -638,7 +638,7 @@ const AutoPlanner = ({ noLayout }) => {
                 </small>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="text-center mt-4">
             <button
@@ -654,7 +654,7 @@ const AutoPlanner = ({ noLayout }) => {
               ) : (
                 <>
                   <i className="bi bi-magic text-white me-2"></i>
-                  Tạo tour
+                  Tạo chuyến đi
                 </>
               )}
             </button>
@@ -687,8 +687,7 @@ const AutoPlanner = ({ noLayout }) => {
                   </>
                 ) : (
                   <>
-                    <i className="bi bi-save me-2"></i>
-                    Lưu tour
+                    Lưu chuyến đi
                   </>
                 )}
               </button>
